@@ -1,6 +1,7 @@
 const express = require('express')
 require('./db/mongoose')
 const User = require('./models/user')
+const Team = require('./models/team')
 
 const app = express()
 const port = process.env.PORT || 3001
@@ -39,6 +40,38 @@ app.get('/users/:id', (req, res) => {
         res.status(500).send()
     })
     })
+
+    app.post('/teams', (req, res) => {
+        const team = new Team(req.body)
+    
+        team.save().then(() => {
+            res.status(201).send(team)
+        }).catch((e) => {
+            res.status(400).send(e)
+        })
+    })
+    
+    app.get('/teams', (req, res) => {
+        Team.find({}).then((teams) => {
+            res.send(teams)
+        }).catch((e) => {
+            res.status(500).send()
+        })
+    })
+    
+    app.get('/teams/:id', (req, res) => {
+        const _id = req.params.id
+        
+        Team.findById(_id).then((team) => {
+            if(!team) {
+                return res.status(404).send()
+            }
+        
+            res.send(team)
+        }).catch((e) => {
+            res.status(500).send()
+        })
+        })
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port)

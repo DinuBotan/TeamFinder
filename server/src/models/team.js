@@ -10,8 +10,8 @@ const Team = mongoose.model('Team', {
     size: {
         type: Number,
         default: 10,
-        minlength: 2,
-        maxlength: 100
+        min: 2,
+        max: 100
     }
 })
 
