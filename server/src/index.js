@@ -2,76 +2,15 @@ const express = require('express')
 require('./db/mongoose')
 const User = require('./models/user')
 const Team = require('./models/team')
+const userRouter = require('./routers/user')
+const teamRouter = require('./routers/team')
 
 const app = express()
 const port = process.env.PORT || 3001
 
 app.use(express.json())
-
-app.post('/users', (req, res) => {
-    const user = new User(req.body)
-
-    user.save().then(() => {
-        res.status(201).send(user)
-    }).catch((e) => {
-        res.status(400).send(e)
-    })
-})
-
-app.get('/users', (req, res) => {
-    User.find({}).then((users) => {
-        res.send(users)
-    }).catch((e) => {
-        res.status(500).send()
-    })
-})
-
-app.get('/users/:id', (req, res) => {
-    const _id = req.params.id
-    
-    User.findById(_id).then((user) => {
-        if(!user) {
-            return res.status(404).send()
-        }
-    
-        res.send(user)
-    }).catch((e) => {
-        console.log('Failed in error catching')
-        res.status(500).send()
-    })
-    })
-
-    app.post('/teams', (req, res) => {
-        const team = new Team(req.body)
-    
-        team.save().then(() => {
-            res.status(201).send(team)
-        }).catch((e) => {
-            res.status(400).send(e)
-        })
-    })
-    
-    app.get('/teams', (req, res) => {
-        Team.find({}).then((teams) => {
-            res.send(teams)
-        }).catch((e) => {
-            res.status(500).send()
-        })
-    })
-    
-    app.get('/teams/:id', (req, res) => {
-        const _id = req.params.id
-        
-        Team.findById(_id).then((team) => {
-            if(!team) {
-                return res.status(404).send()
-            }
-        
-            res.send(team)
-        }).catch((e) => {
-            res.status(500).send()
-        })
-        })
+app.use(userRouter)
+app.use(teamRouter)
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port)
