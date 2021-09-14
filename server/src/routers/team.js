@@ -47,7 +47,13 @@ router.patch('/teams/:id', async (req, res) => {
     }
     
     try {
-        const team = await Team.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+        const team = await Team.findById(req.params.id)
+
+        updates.forEach((update) => {
+            team[update] = req.body[update]
+        })
+
+        await team.save()
     
         if (!team) {
             return res.status(404).send()
