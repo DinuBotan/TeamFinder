@@ -16,7 +16,10 @@ router.post('/teams', async (req, res) => {
 router.get('/teams', async (req, res) => {
     try {
         const teams = await Team.find({})
-        res.send(teams)
+        const obj = {
+            teams: teams
+        }
+        res.send(obj)
     } catch (e) {
         res.status(500).send()
     }
