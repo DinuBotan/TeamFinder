@@ -29,7 +29,7 @@ fun TeamsScreen(navController: NavHostController) {
     LazyColumn(contentPadding = PaddingValues(16.dp)) {
         items(teams) { team ->
             Team(team) {
-                navController.navigate("team_details")
+                navController?.navigate("team_details/${team.id}")
             }
         }
     }

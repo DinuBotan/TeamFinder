@@ -5,6 +5,7 @@ import com.project.model.response.TeamsResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 class TeamsWebService {
 
@@ -23,8 +24,15 @@ class TeamsWebService {
         return api.getTeams()
     }
 
+    suspend fun getTeamById(id: String): TeamResponse {
+        return api.getTeamById(id)
+    }
+
     interface TeamsApi {
         @GET("teams")
         suspend fun getTeams(): TeamsResponse
+
+        @GET("teams/{id}")
+        suspend fun getTeamById(@Path("id") id: String): TeamResponse
     }
 }
