@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class TeamViewModel(private val repository: TeamsRepository = TeamsRepository()) : ViewModel() {
 
-    private val teamState: MutableStateFlow<TeamResponse> = MutableStateFlow(TeamResponse("", "", ""))
+    private val teamState: MutableStateFlow<TeamResponse> = MutableStateFlow(TeamResponse("", "", 0))
 
     fun getTeamById(id: String): TeamResponse {
         viewModelScope.launch(Dispatchers.IO) {

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">TeamFinder</string>
+
+    <string name="author_me">me</string>
+    <string name="now">8:30 PM</string>
+    <string name="attached_image">Attached image</string>
+    <string name="textfield_desc">Text input</string>
 </resources>

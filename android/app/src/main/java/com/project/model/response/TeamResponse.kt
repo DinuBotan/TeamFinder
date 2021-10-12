@@ -12,6 +12,6 @@ data class TeamResponse(
     // with the help of Retrofit
     @SerializedName("_id") val id: String,
     @SerializedName("name") val name: String,
-    @SerializedName("size") val size: String
+    @SerializedName("size") val size: Int
 //    @SerializedName("strCategoryThumb") val imageUrl: String
 )

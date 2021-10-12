@@ -17,13 +17,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.project.model.response.TeamResponse
+import com.project.teamfinder.data.exampleUiState
+import com.project.teamfinder.ui.conversation.ConversationContent
+import com.project.teamfinder.ui.conversation.ConversationUiState
 
 
 @Composable
 fun TeamScreen(userId: String, navController: NavHostController) {
     val viewModel: TeamViewModel = viewModel()
     val team = viewModel.getTeamById(userId)
-//    val team = viewModel.teamState.value
     Log.d("teamStateUI", team.name)
 
 
@@ -43,7 +45,8 @@ fun TeamScreen(userId: String, navController: NavHostController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
 //                verticalAlignment = Arrangement.Top
             ) {
-                TeamContent(userName = team.name, alignment = Alignment.CenterHorizontally)
+                TeamContent(TeamName = team.name, TeamSize = team.size, alignment = Alignment.CenterHorizontally)
+                ConversationContent(exampleUiState )
             }
         }
     }
@@ -66,12 +69,7 @@ fun AppBar(title: String, icon: ImageVector, iconClickAction: () -> Unit) {
 }
 
 @Composable
-fun TeamCard(team: TeamResponse) {
-    var team : TeamResponse;
-}
-
-@Composable
-fun TeamContent(userName: String, alignment: Alignment.Horizontal) {
+fun TeamContent(TeamName: String, TeamSize: Int, alignment: Alignment.Horizontal) {
     Column(
         modifier = Modifier
             .padding(8.dp),
@@ -82,8 +80,12 @@ fun TeamContent(userName: String, alignment: Alignment.Horizontal) {
                     ContentAlpha.medium)
         ) {
             Text(
-                text = userName,
+                text = TeamName,
                 style = MaterialTheme.typography.h5
+            )
+            Text(
+                text = "Team size: " + TeamSize.toString(),
+                style = MaterialTheme.typography.h4
             )
         }
     }
