@@ -13,7 +13,6 @@ fun messageFormatter(
     return buildAnnotatedString {
         var cursorPosition = 0
             append(text.slice(cursorPosition..text.lastIndex))
-
     }
 }
 

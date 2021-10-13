@@ -5,4 +5,13 @@
     <string name="now">8:30 PM</string>
     <string name="attached_image">Attached image</string>
     <string name="textfield_desc">Text input</string>
+
+    <string name="back">Navigate up</string>
+    <string name="search">Search</string>
+    <string name="info">Information</string>
+    <string name="more_options">More options</string>
+    <string name="send">Send</string>
+    <string name="textfield_hint">Message #team</string>
+    <string name="emojis_label">Emojis</string>
+
 </resources>

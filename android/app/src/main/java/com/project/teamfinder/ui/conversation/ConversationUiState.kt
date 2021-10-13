@@ -8,6 +8,10 @@ class ConversationUiState(
 ) {
     val messages: MutableList<Message> = mutableListOf(*initialMessages.toTypedArray())
 
+    fun addMessage(msg: Message) {
+        messages.add(0, msg)
+    }
+
 }
 
 @Immutable

@@ -19,15 +19,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.project.teamfinder.data.exampleUiState
+import com.project.teamfinder.R
 
 @Composable
 fun ConversationContent(
     uiState: ConversationUiState,
     modifier: Modifier = Modifier
     ) {
+
+    val authorMe = stringResource(R.string.author_me)
+    val timeNow = stringResource(id = R.string.now)
 
     val scrollState = rememberLazyListState()
 
@@ -38,6 +43,13 @@ fun ConversationContent(
                     messages = uiState.messages,
                     modifier = Modifier.weight(1f),
                     scrollState = scrollState
+                )
+                UserInput(
+                    onMessageSent = { content ->
+                        uiState.addMessage(
+                            Message(authorMe, content, timeNow)
+                        )
+                    }
                 )
             }
         }
