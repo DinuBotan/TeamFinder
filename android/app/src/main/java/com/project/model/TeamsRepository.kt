@@ -9,7 +9,5 @@ class TeamsRepository(private val webService: TeamsWebService = TeamsWebService(
         return webService.getTeams()
     }
 
-    suspend fun getTeamById(id: String): TeamResponse {
-        return webService.getTeamById(id)
-    }
+
 }

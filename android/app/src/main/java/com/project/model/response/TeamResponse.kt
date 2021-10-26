@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class TeamsResponse(val teams: List<TeamResponse>)
 
+data class MessagesResponse(val messages: List<MessageResponse>)
+
 // Gson deserialization:
 // Transform JSON to data classes
 
@@ -14,4 +16,10 @@ data class TeamResponse(
     @SerializedName("name") val name: String,
     @SerializedName("size") val size: Int
 //    @SerializedName("strCategoryThumb") val imageUrl: String
+)
+
+data class MessageResponse(
+    @SerializedName("author") val author: String,
+    @SerializedName("content") val content: String,
+    @SerializedName("timestamp") val timestamp: String
 )
