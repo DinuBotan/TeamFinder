@@ -24,10 +24,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.project.teamfinder.data.exampleUiState
 import com.project.teamfinder.R
+import com.project.teamfinder.ui.team.TeamViewModel
 
 @Composable
 fun ConversationContent(
     uiState: ConversationUiState,
+    teamViewModel: TeamViewModel,
     modifier: Modifier = Modifier
     ) {
 
@@ -49,6 +51,7 @@ fun ConversationContent(
                         uiState.addMessage(
                             Message(authorMe, content, timeNow)
                         )
+                        teamViewModel.addMessage(Message(authorMe, content, timeNow))
                     }
                 )
             }
@@ -169,5 +172,5 @@ fun ClickableMessage(message: Message) {
 @Preview
 @Composable
 fun ConversationPreview() {
-    ConversationContent(uiState = exampleUiState)
+//    ConversationContent(uiState = exampleUiState, teamViewModel = )
 }

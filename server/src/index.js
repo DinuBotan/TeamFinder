@@ -18,9 +18,9 @@ const server = http.createServer(app)
 const io = socketio(server)
 
 const port = process.env.PORT || 3001
-const publicDirectoryPath = path.join(__dirname)
+const directoryPath = path.join(__dirname)
 
-app.use(express.static(publicDirectoryPath))
+app.use(express.static(directoryPath))
 
 // The way to call an event that happens to our io connection
 io.on('connection', (socket) => {
@@ -48,5 +48,5 @@ io.on('connection', (socket) => {
 
 server.listen(port, () => {
     console.log('Server is up on port ' + port)
-    console.log(publicDirectoryPath)
+    console.log(directoryPath)
 })
