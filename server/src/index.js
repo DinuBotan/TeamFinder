@@ -43,6 +43,7 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         io.emit('message', 'A user has left')
+        console.log("Disconnected!")
     })
 })
 

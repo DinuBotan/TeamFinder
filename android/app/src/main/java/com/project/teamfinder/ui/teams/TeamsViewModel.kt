@@ -4,7 +4,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.project.model.TeamsRepository
 import com.project.model.response.TeamResponse
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +16,7 @@ class TeamsViewModel(private val repository: TeamsRepository = TeamsRepository()
         viewModelScope.launch(Dispatchers.IO) {
             val teams = getTeams()
             teamsState.value = teams
+            repository.initializeSocket()
         }
     }
 

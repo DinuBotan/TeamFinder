@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.model.TeamRepository
-import com.project.model.api.SocketHandler
 import com.project.model.response.MessageResponse
 import com.project.model.response.TeamResponse
 import com.project.teamfinder.ui.conversation.ConversationUiState
@@ -32,22 +31,14 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
         return repository.getTeamById(id)
     }
 
-    init {
-        SocketHandler.setSocket()
 
-        val mSocket = SocketHandler.getSocket()
-
-        mSocket.connect()
-
-        mSocket.emit("message")
-    }
 
     val teamMessages: MutableState<List<MessageResponse>> = mutableStateOf(emptyList<MessageResponse>())
     var teamMessages2 : ArrayList<Message> = ArrayList()
     val teamUiState = ConversationUiState(
         teamMessages2
     )
-//
+
     fun addMessage(m : Message) {
         Log.d("teamViewModel", "Added message: " + m.content)
         Log.d("teamViewModel", "Messages in list: $teamMessages")
