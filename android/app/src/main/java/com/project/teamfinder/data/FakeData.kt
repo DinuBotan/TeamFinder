@@ -3,7 +3,7 @@ package com.project.teamfinder.data
 import com.project.teamfinder.ui.conversation.ConversationUiState
 import com.project.teamfinder.ui.conversation.Message
 
-private val initialMessages = listOf(
+public var initialMessages = listOf(
     Message(
         "me",
         "Check it out!",

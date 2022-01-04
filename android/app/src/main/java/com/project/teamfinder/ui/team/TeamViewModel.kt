@@ -10,6 +10,8 @@ import com.project.model.TeamRepository
 import com.project.model.api.SocketHandler
 import com.project.model.response.MessageResponse
 import com.project.model.response.TeamResponse
+import com.project.teamfinder.data.exampleUiState
+import com.project.teamfinder.data.initialMessages
 import com.project.teamfinder.ui.conversation.ConversationUiState
 import com.project.teamfinder.ui.conversation.Message
 import io.socket.client.Socket
@@ -44,7 +46,8 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
 
 
     val teamMessages: MutableState<List<MessageResponse>> = mutableStateOf(emptyList<MessageResponse>())
-    var teamMessages2 : ArrayList<Message> = ArrayList()
+//    var teamMessages2 : ArrayList<Message> = ArrayList()
+    var teamMessages2 : List<Message> = initialMessages
     val teamUiState = ConversationUiState(
         teamMessages2
     )
@@ -58,6 +61,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     fun addMessage(m : Message) {
         Log.d("teamViewModel", "Added message: " + m.content)
         Log.d("teamViewModel", "Messages in list: $teamMessages")
+
 
         socket.emit("sendMessage", m.content)
 

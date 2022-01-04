@@ -1,15 +1,21 @@
 package com.project.teamfinder.ui.conversation
 
+import android.util.Log
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.mutableStateListOf
 import com.project.teamfinder.R
 
 class ConversationUiState(
     initialMessages: List<Message>
 ) {
-    val messages: MutableList<Message> = mutableListOf(*initialMessages.toTypedArray())
+    val messages: MutableList<Message> = mutableStateListOf(*initialMessages.toTypedArray())
 
     fun addMessage(msg: Message) {
-        messages.add(0, msg)
+        for(ms: Message in messages) {
+            Log.d("AddMessage" , ms.content)
+        }
+        Log.d("AddMessage now", msg.content)
+        messages.add(0, msg) // We want to add to the beginning of the list
     }
 
 }

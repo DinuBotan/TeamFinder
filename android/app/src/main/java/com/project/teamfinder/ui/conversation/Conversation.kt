@@ -22,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.project.teamfinder.data.exampleUiState
 import com.project.teamfinder.R
 import com.project.teamfinder.ui.team.TeamViewModel
 
