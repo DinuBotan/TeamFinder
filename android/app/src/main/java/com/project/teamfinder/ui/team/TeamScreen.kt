@@ -27,6 +27,7 @@ fun TeamScreen(userId: String, navController: NavHostController) {
     val viewModel: TeamViewModel = viewModel()
     val team = viewModel.getTeamById(userId)
     Log.d("teamStateUI", team.name)
+    viewModel.joinChat(userId)
 
 
     Scaffold(topBar = {
