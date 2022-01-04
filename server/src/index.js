@@ -26,15 +26,27 @@ app.use(express.static(directoryPath))
 io.on('connection', (socket) => {
     console.log('New WebSocket Connection')
 
-    // This only sends data to a specific client
-    socket.emit('message', 'Welcome to the chat')
-
     // Will send the message to everyone except the person sending the message
     socket.broadcast.emit('message', 'A new user has joined!')
+
+    socket.on('join', (user) => {
+        // socket.join(user)
+        var json = JSON.parse(user)
+        console.log('User joined: ', json.username)
+        console.log('In room: ', json.room)
+
+        // This only sends data to a specific client
+        socket.emit('message', 'Welcome to the chat')
+
+        // socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined!`))
+
+
+    })
 
     // We want to emit to every connection:
     socket.on('sendMessage', (message) => {
         io.emit('message', message)
+        console.log('Emitted message: ', message)
     })
 
     socket.on('message', () => {

@@ -5,18 +5,34 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.project.model.TeamRepository
+import com.project.model.api.SocketHandler
 import com.project.model.response.MessageResponse
 import com.project.model.response.TeamResponse
 import com.project.teamfinder.ui.conversation.ConversationUiState
 import com.project.teamfinder.ui.conversation.Message
+import io.socket.client.Socket
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
+data class User (
+        var username : String,
+        var room : String
+)
+
 class TeamViewModel(private val repository: TeamRepository = TeamRepository()) : ViewModel() {
 
     private val teamState: MutableStateFlow<TeamResponse> = MutableStateFlow(TeamResponse("", "", 0))
+    private lateinit var socket: Socket
+
+    init {
+        var gson = Gson()
+        socket = SocketHandler.getSocket()
+        var user = gson.toJson(User("user1", "room1"))
+        socket.emit("join", user)
+    }
 
     fun getTeamById(id: String): TeamResponse {
         viewModelScope.launch(Dispatchers.IO) {
@@ -43,9 +59,11 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
         Log.d("teamViewModel", "Added message: " + m.content)
         Log.d("teamViewModel", "Messages in list: $teamMessages")
 
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.postMessage(m)
-        }
+        socket.emit("sendMessage", m.content)
+
+//        viewModelScope.launch(Dispatchers.IO) {
+//            repository.postMessage(m)
+//        }
     }
 
 }
