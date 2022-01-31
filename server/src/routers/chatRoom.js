@@ -40,7 +40,7 @@ router.get('/chatRooms/:id', async (req, res) => {
     }
 })
 
-// Add new messages to the array of messages if a chat room.
+// Add new messages to the array of messages of a chat room.
 router.patch('/chatRooms/:id', async (req, res) => {
         const message = new Message(req.body)
     try {
