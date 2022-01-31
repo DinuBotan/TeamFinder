@@ -9,6 +9,9 @@ const Message = mongoose.model('Message', {
     },
     timestamp: {
         type: String
+    },
+    chatRoom: {
+        type: String
     }
 })
 
