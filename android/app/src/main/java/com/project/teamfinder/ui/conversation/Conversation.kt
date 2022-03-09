@@ -48,9 +48,9 @@ fun ConversationContent(
                 UserInput(
                     onMessageSent = { content ->
                         uiState.addMessage(
-                            Message(authorMe, content, timeNow)
+                            Message(authorMe, content, timeNow, "")
                         )
-                        teamViewModel.addMessage(Message(authorMe, content, timeNow))
+                        teamViewModel.addMessage(Message(authorMe, content, timeNow, ""))
                     }
                 )
             }

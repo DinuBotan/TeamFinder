@@ -29,6 +29,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     private val teamState: MutableStateFlow<TeamResponse> = MutableStateFlow(TeamResponse("", "", 0))
     private var socket: Socket = SocketHandler.getSocket()
     private var gson: Gson = Gson()
+    private lateinit var team: TeamResponse
 
     fun getTeamById(id: String): TeamResponse {
         viewModelScope.launch(Dispatchers.IO) {
@@ -53,8 +54,8 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     )
 
     fun joinChat(id: String) {
-        var team = getTeamById(id)
-        var user = gson.toJson(User("user1", team.name))
+        team = getTeamById(id)
+        val user = gson.toJson(User("user1", team.name))
         socket.emit("join", user)
     }
 
@@ -62,8 +63,10 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
         Log.d("teamViewModel", "Added message: " + m.content)
         Log.d("teamViewModel", "Messages in list: $teamMessages")
 
+        m.chatRoomID = team.name
 
-        socket.emit("sendMessage", m.content)
+//        socket.emit("sendMessage", m.content)
+        socket.emit("sendMessage", Gson().toJson(m))
 
 //        viewModelScope.launch(Dispatchers.IO) {
 //            repository.postMessage(m)

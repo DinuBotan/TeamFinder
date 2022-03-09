@@ -25,6 +25,7 @@ data class Message(
     val author: String,
     val content: String,
     val timestamp: String,
+    var chatRoomID: String,
     val image: Int? = null,
-    val authorImage: Int = if (author == "me") R.drawable.dinu1 else R.drawable.someone_else
+    val authorImage: Int = if (author == "me") R.drawable.dinu1 else R.drawable.someone_else,
 )

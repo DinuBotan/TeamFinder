@@ -22,12 +22,14 @@ module.exports = function (socket, io, app) {
     io.emit("message", message);
     console.log("Emitted message: ", message);
 
+    message = JSON.parse(message);
+
     // Persist message to database
     new Message({
-      author: "Dinu",
-      content: message,
-      timestamp: "12:00",
-      chatRoom: "Toom",
+      author: message.author,
+      content: message.content,
+      timestamp: message.timestamp,
+      chatRoom: message.chatRoomID,
     }).save((err) => {
       if (err) {
         return console.log("error");
