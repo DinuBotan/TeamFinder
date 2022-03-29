@@ -33,6 +33,7 @@ router.get('/teams/:id', async (req, res) => {
         if(!team) {
             return res.status(404).send()
         }
+        console.log('Good team: ' + team);
         res.send(team)
     } catch (e) {
         res.status(500).send()

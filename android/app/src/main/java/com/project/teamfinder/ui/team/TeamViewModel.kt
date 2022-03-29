@@ -31,7 +31,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-             messages = getMessages()
+//             messages = getMessages()
 //            teamMessages.value = messages
         }
     }
@@ -40,14 +40,23 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     private var socket: Socket = SocketHandler.getSocket()
     private var gson: Gson = Gson()
     private lateinit var team: TeamResponse
+    lateinit var teamId: String
 
 
     fun getTeamById(id: String): TeamResponse {
+//        teamId = id
         viewModelScope.launch(Dispatchers.IO) {
             teamState.value = getTeam(id)
             Log.d("teamStateGetById", teamState.value.name)
+            getMessagesById(id)
         }
         return teamState.value
+    }
+
+    private suspend fun getMessagesById(teamId: String) {
+        Log.d("Messages Id ", teamId)
+        Log.d("Messages ", repository.getMessagesById(teamId).toString())
+        settMessages(repository.getMessagesById(teamId))
     }
 
     private suspend fun getMessages(): MessagesResponse {
@@ -63,7 +72,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
 
     private fun settMessages(messages: MessagesResponse) {
         for(message in messages.messages) {
-            var msg = Message(message.author, message.content, message.timestamp, "")
+            var msg = Message(message.author, message.content, message.timestamp, teamId)
             teamMessages2.add(0, msg)
             setTeamUiState()
         }
@@ -90,10 +99,9 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     }
 
     fun addMessage(m : Message) {
+        m.chatRoomID = teamId
         Log.d("teamViewModel", "Added message: " + m.content)
 //        Log.d("teamViewModel", "Messages in list: $teamMessages")
-
-        m.chatRoomID = team.name
         socket.emit("sendMessage", Gson().toJson(m))
 
 //        viewModelScope.launch(Dispatchers.IO) {

@@ -29,7 +29,8 @@ module.exports = function (socket, io, app) {
       author: message.author,
       content: message.content,
       timestamp: message.timestamp,
-      chatRoom: message.chatRoomID,
+      chatRoom: message.chatRoom,
+      teamId: message.chatRoomID
     }).save((err) => {
       if (err) {
         return console.log("error");

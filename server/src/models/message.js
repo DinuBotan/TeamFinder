@@ -12,6 +12,9 @@ const Message = mongoose.model('Message', {
     },
     chatRoom: {
         type: String
+    },
+    teamId: {
+        type: String
     }
 })
 

@@ -40,6 +40,10 @@ class TeamsWebService {
         return api.getMessages()
     }
 
+    suspend fun getMessagesById(teamId: String): MessagesResponse {
+        return api.getMessagesById(teamId)
+    }
+
     interface TeamsApi {
         @GET("teams")
         suspend fun getTeams(): TeamsResponse
@@ -52,5 +56,8 @@ class TeamsWebService {
 
         @GET("messages")
         suspend fun getMessages(): MessagesResponse
+
+        @GET("messages/{teamId}")
+        suspend fun getMessagesById(@Path("teamId") teamId: String): MessagesResponse
     }
 }

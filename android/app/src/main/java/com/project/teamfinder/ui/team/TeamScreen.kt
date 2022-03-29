@@ -25,8 +25,11 @@ import com.project.teamfinder.ui.conversation.ConversationUiState
 @Composable
 fun TeamScreen(userId: String, navController: NavHostController) {
     val viewModel: TeamViewModel = viewModel()
+    viewModel.teamId = userId
     val team = viewModel.getTeamById(userId)
     Log.d("teamStateUI", team.name)
+    Log.d("NavController ", navController.toString())
+    Log.d("UserId ", userId)
     viewModel.joinChat(userId)
 
 
