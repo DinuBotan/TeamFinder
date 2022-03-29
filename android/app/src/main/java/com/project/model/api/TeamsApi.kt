@@ -32,14 +32,6 @@ class TeamsWebService {
         return api.getTeamById(id)
     }
 
-    suspend fun postMessage(msg: Message) {
-        api.postMessage(msg)
-    }
-
-    suspend fun getMessages(): MessagesResponse {
-        return api.getMessages()
-    }
-
     suspend fun getMessagesById(teamId: String): MessagesResponse {
         return api.getMessagesById(teamId)
     }
@@ -50,12 +42,6 @@ class TeamsWebService {
 
         @GET("teams/{id}")
         suspend fun getTeamById(@Path("id") id: String): TeamResponse
-
-        @POST("messages")
-        suspend fun postMessage(@Body msg: Message)
-
-        @GET("messages")
-        suspend fun getMessages(): MessagesResponse
 
         @GET("messages/{teamId}")
         suspend fun getMessagesById(@Path("teamId") teamId: String): MessagesResponse

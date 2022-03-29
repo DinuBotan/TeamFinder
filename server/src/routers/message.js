@@ -51,7 +51,6 @@ router.get("/messages/:teamId", async (req, res) => {
       const obj = {
         messages: messages,
       };
-      console.log("Good message: " + messages);
       res.send(obj);
     }
   } catch (e) {

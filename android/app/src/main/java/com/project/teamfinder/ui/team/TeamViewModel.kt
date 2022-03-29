@@ -1,18 +1,13 @@
 package com.project.teamfinder.ui.team
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.project.model.TeamRepository
 import com.project.model.api.SocketHandler
-import com.project.model.response.MessageResponse
 import com.project.model.response.MessagesResponse
 import com.project.model.response.TeamResponse
-import com.project.teamfinder.data.exampleUiState
-import com.project.teamfinder.data.initialMessages
 import com.project.teamfinder.ui.conversation.ConversationUiState
 import com.project.teamfinder.ui.conversation.Message
 import io.socket.client.Socket
@@ -31,37 +26,26 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-//             messages = getMessages()
-//            teamMessages.value = messages
+            //
         }
     }
 
     private val teamState: MutableStateFlow<TeamResponse> = MutableStateFlow(TeamResponse("", "", 0))
     private var socket: Socket = SocketHandler.getSocket()
     private var gson: Gson = Gson()
-    private lateinit var team: TeamResponse
     lateinit var teamId: String
 
-
     fun getTeamById(id: String): TeamResponse {
-//        teamId = id
         viewModelScope.launch(Dispatchers.IO) {
             teamState.value = getTeam(id)
-            Log.d("teamStateGetById", teamState.value.name)
             getMessagesById(id)
         }
         return teamState.value
     }
 
     private suspend fun getMessagesById(teamId: String) {
-        Log.d("Messages Id ", teamId)
-        Log.d("Messages ", repository.getMessagesById(teamId).toString())
-        settMessages(repository.getMessagesById(teamId))
-    }
-
-    private suspend fun getMessages(): MessagesResponse {
-        settMessages(repository.getMessages())
-        return repository.getMessages()
+        messages = repository.getMessagesById(teamId)
+        setMessages(messages)
     }
 
     // Suspend functions are asynchronous and should wait for the result inside a coroutine
@@ -70,7 +54,8 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     }
     var teamMessages2 : ArrayList<Message> = ArrayList()
 
-    private fun settMessages(messages: MessagesResponse) {
+    @JvmName("setMessages1")
+    private fun setMessages(messages: MessagesResponse) {
         for(message in messages.messages) {
             var msg = Message(message.author, message.content, message.timestamp, teamId)
             teamMessages2.add(0, msg)
@@ -83,30 +68,17 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     private fun setTeamUiState() {
         teamUiState = ConversationUiState(
             teamMessages2
-
-//    teamMessages
         )
     }
 
-//    var teamMessages2 : ArrayList<Message> = ArrayList()
-
-
-
     fun joinChat(id: String) {
-        team = getTeamById(id)
-        val user = gson.toJson(User("user1", team.name))
+        val user = gson.toJson(User("user1", teamState.value.name))
         socket.emit("join", user)
     }
 
     fun addMessage(m : Message) {
         m.chatRoomID = teamId
-        Log.d("teamViewModel", "Added message: " + m.content)
-//        Log.d("teamViewModel", "Messages in list: $teamMessages")
         socket.emit("sendMessage", Gson().toJson(m))
-
-//        viewModelScope.launch(Dispatchers.IO) {
-//            repository.postMessage(m)
-//        }
     }
 
 }

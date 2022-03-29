@@ -12,17 +12,7 @@ class TeamRepository(private val webService: TeamsWebService = TeamsWebService()
         return webService.getTeamById(id)
     }
 
-    suspend fun postMessage(msg: Message) {
-        webService.postMessage(msg)
-    }
-
-    suspend fun getMessages(): MessagesResponse {
-        return webService.getMessages()
-    }
-
     suspend fun getMessagesById(teamId: String): MessagesResponse {
-        Log.d("Messages team id in team repository: ", teamId)
-        Log.d("Messages in team repo: ", webService.getMessagesById(teamId).toString())
         return webService.getMessagesById(teamId)
     }
 
