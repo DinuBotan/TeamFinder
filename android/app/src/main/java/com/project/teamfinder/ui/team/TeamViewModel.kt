@@ -26,7 +26,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            //
+            setTeamUiState()
         }
     }
 
@@ -59,8 +59,8 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
         for(message in messages.messages) {
             var msg = Message(message.author, message.content, message.timestamp, teamId)
             teamMessages2.add(0, msg)
-            setTeamUiState()
         }
+        updateTeamUiState(teamMessages2)
     }
 
     lateinit var teamUiState: ConversationUiState
@@ -69,6 +69,13 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
         teamUiState = ConversationUiState(
             teamMessages2
         )
+    }
+
+    private fun updateTeamUiState(messages: ArrayList<Message>) {
+        if(teamUiState.messages.size < 1) {
+            teamUiState.messages.addAll(messages)
+        }
+
     }
 
     fun joinChat(id: String) {

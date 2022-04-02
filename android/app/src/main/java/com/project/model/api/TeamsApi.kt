@@ -17,7 +17,7 @@ class TeamsWebService {
 
     init {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.1.4:3001/")
+            .baseUrl("http://192.168.1.5:3001/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
