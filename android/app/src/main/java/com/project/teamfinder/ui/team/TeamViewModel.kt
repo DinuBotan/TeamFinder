@@ -77,9 +77,16 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
         )
     }
 
+    // There is an issue with socket.io and it emits messages twice. Added logic here to check
+    // if the previous message is the same, therefore temporarily solving the problem
     private fun updateTeamUiState(messages: ArrayList<Message>) {
         Log.d("updateChat inside updateTeamUi ", messages.toString())
+        if(teamUiState.messages.size == 0) {
             teamUiState.messages.addAll(0, messages)
+        } else if (messages.size == 1 && teamUiState.messages[0] != messages[0]){
+            teamUiState.messages.addAll(0, messages)
+        }
+
 
     }
 
