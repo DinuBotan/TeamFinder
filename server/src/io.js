@@ -19,7 +19,7 @@ module.exports = function (socket, io, app) {
 
   // We want to emit to every connection:
   socket.on("sendMessage", (message) => {
-    io.emit("message", message);
+    io.emit("chatMessage", message);
     console.log("Emitted message: ", message);
 
     message = JSON.parse(message);

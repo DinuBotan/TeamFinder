@@ -6,11 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.project.model.TeamRepository
 import com.project.model.api.SocketHandler
+import com.project.model.response.MessageResponse
 import com.project.model.response.MessagesResponse
 import com.project.model.response.TeamResponse
 import com.project.teamfinder.ui.conversation.ConversationUiState
 import com.project.teamfinder.ui.conversation.Message
 import io.socket.client.Socket
+import io.socket.emitter.Emitter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -23,6 +25,7 @@ data class User (
 class TeamViewModel(private val repository: TeamRepository = TeamRepository()) : ViewModel() {
 //    val teamMessages: MutableState<MessagesResponse> = mutableStateOf(MessagesResponse(emptyList()))
     lateinit var messages: MessagesResponse
+    private var fetched = false
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -60,7 +63,10 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
             var msg = Message(message.author, message.content, message.timestamp, teamId)
             teamMessages2.add(0, msg)
         }
-        updateTeamUiState(teamMessages2)
+        if(!fetched) {
+            fetched = true
+            updateTeamUiState(teamMessages2)
+        }
     }
 
     lateinit var teamUiState: ConversationUiState
@@ -72,15 +78,26 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     }
 
     private fun updateTeamUiState(messages: ArrayList<Message>) {
-        if(teamUiState.messages.size < 1) {
-            teamUiState.messages.addAll(messages)
-        }
+        Log.d("updateChat inside updateTeamUi ", messages.toString())
+            teamUiState.messages.addAll(0, messages)
 
     }
 
     fun joinChat(id: String) {
         val user = gson.toJson(User("user1", teamState.value.name))
         socket.emit("join", user)
+        socket.on("chatMessage", updateChat)
+    }
+
+    var updateChat = Emitter.Listener {
+        Log.d("updateChat ", it[0].toString())
+        val chat:MessageResponse = gson.fromJson(it[0].toString(), MessageResponse::class.java)
+        Log.d("Chat ", chat.toString())
+        var message = Message(chat.author, chat.content, chat.timestamp, teamId)
+        var messages: ArrayList<Message> = ArrayList()
+        messages.add(message)
+        Log.d("updateChat messages: ", messages.toString())
+        updateTeamUiState(messages)
     }
 
     fun addMessage(m : Message) {

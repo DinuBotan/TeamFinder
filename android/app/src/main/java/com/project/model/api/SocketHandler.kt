@@ -33,4 +33,9 @@ object SocketHandler {
     fun closeConnection() {
         mSocket.disconnect()
     }
+
+    @Synchronized
+    fun subscribeToNewMessage() {
+
+    }
 }
