@@ -19,19 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.project.model.response.TeamResponse
-import com.project.teamfinder.data.exampleUiState
 import com.project.teamfinder.ui.conversation.ConversationContent
-import com.project.teamfinder.ui.conversation.ConversationUiState
 
 
 @Composable
 fun TeamScreen(userId: String, navController: NavHostController, viewModel: TeamViewModel = viewModel()) {
-//    val viewModel: TeamViewModel = viewModel()
     viewModel.teamId = userId
     val team: TeamResponse by viewModel.team.observeAsState(TeamResponse("", "", 0))
-    Log.d("teamStateUI", team.name)
-    Log.d("NavController ", navController.toString())
-    Log.d("UserId ", userId)
     if(team.id == "") {
         viewModel.getTeamById(userId)
         viewModel.joinChat(userId)

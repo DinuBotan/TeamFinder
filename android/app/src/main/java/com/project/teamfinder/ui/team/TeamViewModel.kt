@@ -16,7 +16,6 @@ import com.project.teamfinder.ui.conversation.Message
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 data class User (
@@ -25,11 +24,8 @@ data class User (
 )
 
 class TeamViewModel(private val repository: TeamRepository = TeamRepository()) : ViewModel() {
-//    val teamMessages: MutableState<MessagesResponse> = mutableStateOf(MessagesResponse(emptyList()))
     lateinit var messages: MessagesResponse
-    private var fetched = false
-    var teamMessages2 : ArrayList<Message> = ArrayList()
-
+    var teamMessages : ArrayList<Message> = ArrayList()
     val _team: MutableLiveData<TeamResponse> = MutableLiveData(TeamResponse("", "", 0))
     val team: LiveData<TeamResponse> = _team
 
@@ -37,10 +33,8 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
         viewModelScope.launch(Dispatchers.IO) {
             setTeamUiState()
         }
-        Log.d("InitializeViewModel", "initialized")
     }
 
-    private val teamState: MutableStateFlow<TeamResponse> = MutableStateFlow(TeamResponse("", "", 0))
     private var socket: Socket = SocketHandler.getSocket()
     private var gson: Gson = Gson()
     lateinit var teamId: String
@@ -66,50 +60,34 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     private fun setMessages(messages: MessagesResponse) {
         for(message in messages.messages) {
             var msg = Message(message.author, message.content, message.timestamp, teamId)
-            teamMessages2.add(0, msg)
+            teamMessages.add(0, msg)
         }
-        if(!fetched) {
-            fetched = true
-            updateTeamUiState(teamMessages2)
-        }
+            updateTeamUiState(teamMessages)
     }
 
     lateinit var teamUiState: ConversationUiState
 
     private fun setTeamUiState() {
         teamUiState = ConversationUiState(
-            teamMessages2
+            teamMessages
         )
     }
 
-    // There is an issue with socket.io and it emits messages twice. Added logic here to check
-    // if the previous message is the same, therefore temporarily solving the problem
     private fun updateTeamUiState(messages: ArrayList<Message>) {
-        Log.d("updateChat inside updateTeamUi ", messages.toString())
-        if(teamUiState.messages.size == 0) {
-            teamUiState.messages.addAll(0, messages)
-        } else if (messages.size == 1 && teamUiState.messages[0] != messages[0]){
-            teamUiState.messages.addAll(0, messages)
-        }
-
-
+        teamUiState.messages.addAll(0, messages)
     }
 
     fun joinChat(id: String) {
-        Log.d("joinChat", "joined")
         val user = gson.toJson(User("user1", id))
         socket.emit("join", user)
         socket.on("chatMessage", updateChat)
     }
 
     var updateChat = Emitter.Listener {
-        Log.d("updateChat ", it[0].toString())
         val chat:MessageResponse = gson.fromJson(it[0].toString(), MessageResponse::class.java)
-        Log.d("Chat ", chat.toString())
         var message = Message(chat.author, chat.content, chat.timestamp, teamId)
         var messages: ArrayList<Message> = ArrayList()
         messages.add(message)
-        Log.d("updateChat messages: ", messages.toString())
         updateTeamUiState(messages)
     }
 
