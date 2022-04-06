@@ -31,6 +31,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
         viewModelScope.launch(Dispatchers.IO) {
             setTeamUiState()
         }
+        Log.d("InitializeViewModel", "initialized")
     }
 
     private val teamState: MutableStateFlow<TeamResponse> = MutableStateFlow(TeamResponse("", "", 0))
@@ -91,7 +92,8 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     }
 
     fun joinChat(id: String) {
-        val user = gson.toJson(User("user1", teamState.value.name))
+        Log.d("joinChat", "joined")
+        val user = gson.toJson(User("user1", id))
         socket.emit("join", user)
         socket.on("chatMessage", updateChat)
     }
@@ -111,5 +113,4 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
         m.chatRoomID = teamId
         socket.emit("sendMessage", Gson().toJson(m))
     }
-
 }

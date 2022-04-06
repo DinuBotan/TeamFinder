@@ -5,11 +5,10 @@ module.exports = function (socket, io, app) {
   // Will send the message to everyone except the person sending the message
   socket.broadcast.emit("message", "A new user has joined!");
 
-  socket.on("join", (user) => {
-    // socket.join(user)
-    var json = JSON.parse(user);
-    console.log("User joined: ", json.username);
-    console.log("In room: ", json.room);
+  socket.on("join", async (user) => {
+    user = JSON.parse(user);
+    await socket.join(user.room);
+    console.log(socket.id + " now in rooms ", socket.rooms);
 
     // This only sends data to a specific client
     socket.emit("message", "Welcome to the chat");
@@ -19,11 +18,10 @@ module.exports = function (socket, io, app) {
 
   // We want to emit to every connection:
   socket.on("sendMessage", (message) => {
-    // io.emit("chatMessage", message);
-    socket.broadcast.emit("chatMessage", message);
-    console.log("Emitted message: ", message);
-
     message = JSON.parse(message);
+    console.log("In sendMessage: " + socket.id + " now in rooms ", socket.rooms);
+    socket.to(message.chatRoomID).emit("chatMessage", message);
+    console.log("Emitted message: ", message);
 
     // Persist message to database
     new Message({

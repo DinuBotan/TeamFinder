@@ -35,7 +35,6 @@ const msg = [{
 }];
 
 router.get("/messages/:teamId", async (req, res) => {
-  console.log("Req params: " + JSON.stringify(req.params));
   const _id = req.params.teamId;
 
   try {

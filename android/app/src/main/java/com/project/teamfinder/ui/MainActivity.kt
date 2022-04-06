@@ -1,9 +1,13 @@
 package com.project.teamfinder.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,6 +30,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TeamsApplication() {
+
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "teams_list") {
         composable("teams_list") {
@@ -39,6 +44,7 @@ fun TeamsApplication() {
         ) {
             navBackStackEntry ->
             TeamScreen(navBackStackEntry.arguments!!.getString("teamId").toString(), navController)
+            Log.d("TeamScreen", "called")
         }
     }
 }
