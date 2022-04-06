@@ -26,6 +26,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
 //    val teamMessages: MutableState<MessagesResponse> = mutableStateOf(MessagesResponse(emptyList()))
     lateinit var messages: MessagesResponse
     private var fetched = false
+    var teamMessages2 : ArrayList<Message> = ArrayList()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -56,7 +57,6 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     private suspend fun getTeam(id: String): TeamResponse {
         return repository.getTeamById(id)
     }
-    var teamMessages2 : ArrayList<Message> = ArrayList()
 
     @JvmName("setMessages1")
     private fun setMessages(messages: MessagesResponse) {
@@ -107,6 +107,11 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
         messages.add(message)
         Log.d("updateChat messages: ", messages.toString())
         updateTeamUiState(messages)
+    }
+
+    fun leaveChat(id: String) {
+        val user = gson.toJson(User("user1", id))
+        socket.emit("leaveChat", user)
     }
 
     fun addMessage(m : Message) {

@@ -16,6 +16,12 @@ module.exports = function (socket, io, app) {
     // socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined!`))
   });
 
+  socket.on("leaveChat", async (user) => {
+    user = JSON.parse(user);
+    await socket.leave(user.room);
+    console.log(socket.id + " After leaving now in rooms ", socket.rooms);
+  })
+
   // We want to emit to every connection:
   socket.on("sendMessage", (message) => {
     message = JSON.parse(message);
