@@ -1,6 +1,8 @@
 package com.project.teamfinder.ui.team
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
@@ -28,6 +30,9 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     private var fetched = false
     var teamMessages2 : ArrayList<Message> = ArrayList()
 
+    val _team: MutableLiveData<TeamResponse> = MutableLiveData(TeamResponse("", "", 0))
+    val team: LiveData<TeamResponse> = _team
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             setTeamUiState()
@@ -40,12 +45,11 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     private var gson: Gson = Gson()
     lateinit var teamId: String
 
-    fun getTeamById(id: String): TeamResponse {
+    fun getTeamById(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            teamState.value = getTeam(id)
+            _team.postValue(getTeam(id))
             getMessagesById(id)
         }
-        return teamState.value
     }
 
     private suspend fun getMessagesById(teamId: String) {

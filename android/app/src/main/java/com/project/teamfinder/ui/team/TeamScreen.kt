@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -26,11 +28,15 @@ import com.project.teamfinder.ui.conversation.ConversationUiState
 fun TeamScreen(userId: String, navController: NavHostController, viewModel: TeamViewModel = viewModel()) {
 //    val viewModel: TeamViewModel = viewModel()
     viewModel.teamId = userId
-    val team = viewModel.getTeamById(userId)
+    val team: TeamResponse by viewModel.team.observeAsState(TeamResponse("", "", 0))
     Log.d("teamStateUI", team.name)
     Log.d("NavController ", navController.toString())
     Log.d("UserId ", userId)
-    viewModel.joinChat(userId)
+    if(team.id == "") {
+        viewModel.getTeamById(userId)
+        viewModel.joinChat(userId)
+    }
+
 
 
     Scaffold(topBar = {
