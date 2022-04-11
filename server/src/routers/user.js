@@ -4,7 +4,6 @@ const User = require('../models/user')
 
 router.post('/users', async (req, res) => {
     const user = new User(req.body)
-
     try {
         await user.save()
         res.status(201).send(user)
@@ -13,12 +12,19 @@ router.post('/users', async (req, res) => {
     }
 })
 
+const invalidUser = {
+    name: '',
+    email: '',
+    password: ''
+}
+
 router.post('/users/login', async (req, res) => {
     try {
-        const user = await User.findByCredentials(req.body.email, req.body.password)
+        const user = await User.findByCredentials(req.body.userEmail, req.body.userPassword)
+        console.log('Found user: ' + user);
         res.send(user)
     } catch (e) {
-        res.status(400).send()
+        res.status(200).send(invalidUser)
     }
 })
 
@@ -44,6 +50,20 @@ router.get('/users/:id', async (req, res) => {
         res.status(500).send()
     }
 })
+
+router.get("/users/email/:email", async (req, res) => {
+  const email = req.params.email;
+
+  try {
+    const user = await User.findById(email);
+    if (!user) {
+      return res.status(404).send();
+    }
+    res.send(user);
+  } catch (e) {
+    res.status(500).send();
+  }
+});
 
 router.patch('/users/:id', async (req, res) => {
     const updates = Object.keys(req.body)

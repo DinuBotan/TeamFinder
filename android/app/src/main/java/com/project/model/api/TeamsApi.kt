@@ -1,8 +1,6 @@
 package com.project.model.api
 
-import com.project.model.response.MessagesResponse
-import com.project.model.response.TeamResponse
-import com.project.model.response.TeamsResponse
+import com.project.model.response.*
 import com.project.teamfinder.ui.conversation.Message
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -17,7 +15,7 @@ class TeamsWebService {
 
     init {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.1.5:3001/")
+            .baseUrl("http://192.168.1.3:3001/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -36,6 +34,10 @@ class TeamsWebService {
         return api.getMessagesById(teamId)
     }
 
+    suspend fun login(user: User): UserResponse {
+        return api.login(user)
+    }
+
     interface TeamsApi {
         @GET("teams")
         suspend fun getTeams(): TeamsResponse
@@ -45,5 +47,8 @@ class TeamsWebService {
 
         @GET("messages/{teamId}")
         suspend fun getMessagesById(@Path("teamId") teamId: String): MessagesResponse
+
+        @POST("users/login")
+        suspend fun login(@Body user: User):UserResponse
     }
 }

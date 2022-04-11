@@ -5,9 +5,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -15,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.project.teamfinder.ui.team.TeamScreen
 import com.project.teamfinder.ui.teams.TeamsScreen
+import com.project.teamfinder.ui.login.loginScreen
 import com.project.teamfinder.ui.theme.TeamFinderTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,7 +30,10 @@ class MainActivity : ComponentActivity() {
 fun TeamsApplication() {
 
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "teams_list") {
+    NavHost(navController = navController, startDestination = "login_screen") {
+        composable("login_screen") {
+            loginScreen(navController)
+        }
         composable("teams_list") {
             TeamsScreen(navController)
         }
