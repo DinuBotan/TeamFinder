@@ -4,6 +4,7 @@ const Message = require("../models/message");
 
 router.post("/messages", async (req, res) => {
   const message = new Message(req.body);
+  message.timestamp = Date.now();
 
   try {
     await message.save();
@@ -25,23 +26,24 @@ router.get("/messages", async (req, res) => {
   }
 });
 
-const msg = [{
-  id: "new ObjectId('6154be2a60e87e140d97c094')",
-  author: "",
-  content: "No messages here!",
-  timestamp: "",
-  chatRoom: "",
-  teamId: "",
-}];
+const msg = [
+  {
+    id: "new ObjectId('6154be2a60e87e140d97c094')",
+    authorId: "",
+    content: "No messages here!",
+    timestamp: Date.now(),
+    chatRoomId: "",
+  },
+];
 
 router.get("/messages/:teamId", async (req, res) => {
   const _id = req.params.teamId;
 
   try {
-    const messages = await Message.find({ teamId: _id });
+    const messages = await Message.find({ chatRoomId: _id });
     if (messages.length === 0) {
       console.log("No messages for: " + _id);
-      msg[0].teamId = _id;
+      msg[0].chatRoomId = _id;
       const obj = {
         messages: msg
       }

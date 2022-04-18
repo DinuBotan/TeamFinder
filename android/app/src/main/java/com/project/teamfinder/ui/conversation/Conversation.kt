@@ -48,9 +48,9 @@ fun ConversationContent(
                 UserInput(
                     onMessageSent = { content ->
                         uiState.addMessage(
-                            Message(authorMe, content, timeNow, "")
+                            Message(authorMe, content)
                         )
-                        teamViewModel.addMessage(Message(authorMe, content, timeNow, ""))
+                        teamViewModel.addMessage(Message(authorMe, content))
                     }
                 )
             }
@@ -73,9 +73,9 @@ fun Messages(
 
         ) {
             for (index in messages.indices) {
-                val nextAuthor = messages.getOrNull(index + 1)?.author
+                val nextAuthor = messages.getOrNull(index + 1)?.authorId
                 val content = messages[index]
-                val isLastMessageByAuthor = nextAuthor != content.author
+                val isLastMessageByAuthor = nextAuthor != content.authorId
 
                 item {
                     Message(

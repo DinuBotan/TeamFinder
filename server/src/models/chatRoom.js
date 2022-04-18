@@ -2,11 +2,12 @@ const mongoose = require('mongoose')
 
 const ChatRoom = mongoose.model('ChatRoom', {
     teamID: {
-        type: String
+        type: String,
+        require: true
     },
     messages: {
         type: Array,
-        "default" : []
+        default : []
     }
 })
 

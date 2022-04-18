@@ -4,35 +4,58 @@ const bcrypt = require('bcryptjs')
 
 // Mongoose schema that maps to the MongoDB User collection.
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
+  name: {
+    type: String,
+    require: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    require: true,
+    trim: true,
+    lowercase: true,
+    validate(value) {
+      if (!validator.isEmail(value)) {
+        throw new Error("Email is invalid!");
+      }
     },
-    email: {
-        type: String,
-        unique: true,
-        require: true,
-        trim: true,
-        lowercase: true,
-        validate(value) {
-            if (!validator.isEmail(value)) {
-                throw new Error('Email is invalid!')
-            }
-        }
+  },
+  password: {
+    type: String,
+    require: true,
+    trim: true,
+    minlength: 7,
+    validate(value) {
+      if (validator.contains(value, "password", { ignoreCase: true })) {
+        throw new Error("Contains word password!");
+      }
     },
-    password: {
-        type: String,
-        require: true,
-        trim: true,
-        minlength: 7,
-        validate(value) {
-            if(validator.contains(value, 'password', {ignoreCase: true})) {
-                throw new Error('Contains word password!')
-            }
-        }
-    }
-})
+  },
+  location: {
+    type: String,
+    require: false,
+    default: '',
+  },
+  country: {
+    type: String,
+    require: false,
+    default: "Remote",
+  },
+  city: {
+    type: String,
+    require: false,
+    default: '',
+  },
+  interests: {
+    type: Array,
+    default: [],
+  },
+  teams: {
+    type: Array,
+    default: [],
+  },
+});
 
 // Since we are passing a schema to the model:
 // We can write a function that will be accessible by the User model

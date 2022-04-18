@@ -23,12 +23,12 @@ import com.project.teamfinder.ui.conversation.ConversationContent
 
 
 @Composable
-fun TeamScreen(userId: String, navController: NavHostController, viewModel: TeamViewModel = viewModel()) {
-    viewModel.teamId = userId
+fun TeamScreen(teamId: String, navController: NavHostController, viewModel: TeamViewModel = viewModel()) {
+    viewModel.teamId = teamId
     val team: TeamResponse by viewModel.team.observeAsState(TeamResponse("", "", 0))
     if(team.id == "") {
-        viewModel.getTeamById(userId)
-        viewModel.joinChat(userId)
+        viewModel.getTeamById(teamId)
+        viewModel.joinChat(teamId)
     }
 
 
@@ -38,7 +38,7 @@ fun TeamScreen(userId: String, navController: NavHostController, viewModel: Team
             title = "Team details",
             icon = Icons.Default.ArrowBack
         ) {
-            viewModel.leaveChat(userId)
+            viewModel.leaveChat(teamId)
             navController?.navigateUp()
         }
     }) {

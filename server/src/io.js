@@ -31,11 +31,10 @@ module.exports = function (socket, io, app) {
 
     // Persist message to database
     new Message({
-      author: message.author,
+      authorId: message.authorId,
       content: message.content,
-      timestamp: message.timestamp,
-      chatRoom: message.chatRoom,
-      teamId: message.chatRoomID
+      timestamp: Date.now(),
+      chatRoomId: message.chatRoomId
     }).save((err) => {
       if (err) {
         return console.log("error");

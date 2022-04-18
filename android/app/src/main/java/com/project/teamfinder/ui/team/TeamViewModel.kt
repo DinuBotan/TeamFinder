@@ -48,6 +48,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
 
     private suspend fun getMessagesById(teamId: String) {
         messages = repository.getMessagesById(teamId)
+        Thread.sleep(500)
         setMessages(messages)
     }
 
@@ -59,7 +60,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     @JvmName("setMessages1")
     private fun setMessages(messages: MessagesResponse) {
         for(message in messages.messages) {
-            var msg = Message(message.author, message.content, message.timestamp, teamId)
+            var msg = Message(message.authorId, message.content, message.timestamp, teamId)
             teamMessages.add(0, msg)
         }
             updateTeamUiState(teamMessages)
@@ -85,7 +86,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
 
     var updateChat = Emitter.Listener {
         val chat:MessageResponse = gson.fromJson(it[0].toString(), MessageResponse::class.java)
-        var message = Message(chat.author, chat.content, chat.timestamp, teamId)
+        var message = Message(chat.authorId, chat.content, chat.timestamp, teamId)
         var messages: ArrayList<Message> = ArrayList()
         messages.add(message)
         updateTeamUiState(messages)
@@ -97,7 +98,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     }
 
     fun addMessage(m : Message) {
-        m.chatRoomID = teamId
+        m.chatRoomId = teamId
         socket.emit("sendMessage", Gson().toJson(m))
     }
 }

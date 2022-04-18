@@ -1,20 +1,21 @@
 const mongoose = require('mongoose')
 
 const Message = mongoose.model('Message', {
-    author: {
-        type: String
+    authorId: {
+        type: String,
+        require: true
     },
     content: {
-        type: String
+        type: String,
+        require: true
     },
     timestamp: {
-        type: String
+        type: Date,
+        require: true
     },
-    chatRoom: {
-        type: String
-    },
-    teamId: {
-        type: String
+    chatRoomId: {
+        type: String,
+        require: true
     }
 })
 

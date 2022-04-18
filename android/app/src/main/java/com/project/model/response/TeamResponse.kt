@@ -19,7 +19,8 @@ data class TeamResponse(
 )
 
 data class MessageResponse(
-    @SerializedName("author") val author: String,
+    @SerializedName("authorId") val authorId: String,
     @SerializedName("content") val content: String,
-    @SerializedName("timestamp") val timestamp: String
+    @SerializedName("timestamp") val timestamp: String,
+    @SerializedName("chatRoomId") val chatRoomId: String,
 )

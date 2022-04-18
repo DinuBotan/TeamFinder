@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +17,7 @@ import androidx.navigation.NavHostController
 import com.project.model.response.TeamResponse
 import com.project.teamfinder.ui.TeamsApplication
 import com.project.teamfinder.ui.theme.TeamFinderTheme
+import kotlinx.coroutines.NonCancellable.children
 
 @Composable
 fun TeamsScreen(navController: NavHostController) {
@@ -63,7 +62,22 @@ fun Team(team : TeamResponse, clickAction: () -> Unit) {
                 )
             }
         }
+        JoinButton()
     }
+}
+
+
+@Composable
+fun JoinButton() {
+    Column(modifier = Modifier,
+        horizontalAlignment = Alignment.End,
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        OutlinedButton(onClick = { /* Do something! */ }) {
+            Text("Join")
+        }
+    }
+
 }
 
 @Preview(showBackground = true)
