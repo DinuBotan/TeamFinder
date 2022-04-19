@@ -8,10 +8,21 @@ data class UserResponse(
     @SerializedName("_id") val id: String,
     @SerializedName("name") val name: String,
     @SerializedName("email") val email: String,
-    @SerializedName("password") val password: String
+    @SerializedName("password") val password: String,
+    @SerializedName("location") val location: String,
+    @SerializedName("country") val country: String,
+    @SerializedName("city") val city: String,
+    @SerializedName("interests") val interests: ArrayList<String>,
+    @SerializedName("teams") val teams: ArrayList<String>
 )
 
 data class User(
     val userEmail: String,
-    val userPassword: String
+    val userPassword: String,
+    val name: String,
+    val location: String,
+    val country: String,
+    val city: String,
+    val interests: ArrayList<String>?,
+    val teams: ArrayList<String>?
 )

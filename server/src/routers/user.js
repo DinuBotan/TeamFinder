@@ -66,13 +66,16 @@ router.get("/users/email/:email", async (req, res) => {
 });
 
 router.patch('/users/:id', async (req, res) => {
+    console.log('Trying to patch user: ' + JSON.stringify(req.body))
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password']
+    const allowedUpdates = ['name', 'email', 'password', 'teams', 'location', 'country', 'city', 'interests']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
-    if (!isValidOperation) {
-        return res.status(400).send({ error: 'Invalid updates!' })
-    }
+    //TODO: fix error here
+    // if (!isValidOperation) {
+    //     console.log('Invalid updates')
+    //     return res.status(400).send({ error: 'Invalid updates!' })
+    // }
 
     try {
         const user = await User.findById(req.params.id)
@@ -89,6 +92,7 @@ router.patch('/users/:id', async (req, res) => {
 
         res.send(user)
     } catch (e) {
+        console.log('Error updating user')
         res.status(400).send(e)
     }
 }) 

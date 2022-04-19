@@ -20,22 +20,25 @@ import com.project.teamfinder.ui.theme.TeamFinderTheme
 import kotlinx.coroutines.NonCancellable.children
 
 @Composable
-fun TeamsScreen(navController: NavHostController) {
+fun TeamsScreen(userId: String, navController: NavHostController) {
     // Special syntax to instantiate a viewModel
     val viewModel: TeamsViewModel = viewModel()
+    viewModel.userId = userId
     val teams = viewModel.teamsState.value
 
     LazyColumn(contentPadding = PaddingValues(16.dp)) {
         items(teams) { team ->
-            Team(team) {
-                navController?.navigate("team_details/${team.id}")
+            Team(team, viewModel, navController, userId) {
+                if(viewModel.belongsToTeam(team.id)) {
+                    navController?.navigate("team_details/${team.id}&${userId}")
+                }
             }
         }
     }
 }
 
 @Composable
-fun Team(team : TeamResponse, clickAction: () -> Unit) {
+fun Team(team : TeamResponse, viewModel: TeamsViewModel, navController: NavHostController, userId: String, clickAction: () -> Unit) {
     Card(shape = RoundedCornerShape(8.dp),
         elevation = 2.dp,
         modifier = Modifier
@@ -62,18 +65,24 @@ fun Team(team : TeamResponse, clickAction: () -> Unit) {
                 )
             }
         }
-        JoinButton()
+        if(!viewModel.belongsToTeam(team.id)) {
+            JoinButton(viewModel, team, navController, userId)
+        }
+
     }
 }
 
 
 @Composable
-fun JoinButton() {
+fun JoinButton(viewModel: TeamsViewModel, team: TeamResponse, navController: NavHostController, userId: String) {
     Column(modifier = Modifier,
         horizontalAlignment = Alignment.End,
         verticalArrangement = Arrangement.Bottom
     ) {
-        OutlinedButton(onClick = { /* Do something! */ }) {
+        OutlinedButton(onClick = {
+            viewModel.joinTeam(team.id)
+            navController?.navigate("team_details/${team.id}&${userId}")
+        }) {
             Text("Join")
         }
     }

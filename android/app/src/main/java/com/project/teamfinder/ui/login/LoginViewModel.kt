@@ -10,7 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: UserRepository = UserRepository()) : ViewModel() {
-    private var user: UserResponse = UserResponse("0", "No name", "", "No password")
+
+    val interests: ArrayList<String> = ArrayList()
+    val teams: ArrayList<String> = ArrayList()
+    var user: UserResponse = UserResponse("0", "No name", "", "No password", "", "", "", interests, teams)
     val emailTextBoxState: MutableState<String> = mutableStateOf("")
     val passwordTextBoxState: MutableState<String> = mutableStateOf("")
     val successfulLogin: MutableState<Boolean> = mutableStateOf(false)

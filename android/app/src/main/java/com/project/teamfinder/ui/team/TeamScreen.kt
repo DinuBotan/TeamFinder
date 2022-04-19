@@ -23,8 +23,9 @@ import com.project.teamfinder.ui.conversation.ConversationContent
 
 
 @Composable
-fun TeamScreen(teamId: String, navController: NavHostController, viewModel: TeamViewModel = viewModel()) {
+fun TeamScreen(teamId: String, userId: String, navController: NavHostController, viewModel: TeamViewModel = viewModel()) {
     viewModel.teamId = teamId
+    viewModel.userId = userId
     val team: TeamResponse by viewModel.team.observeAsState(TeamResponse("", "", 0))
     if(team.id == "") {
         viewModel.getTeamById(teamId)

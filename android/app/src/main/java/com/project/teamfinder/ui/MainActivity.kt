@@ -34,17 +34,28 @@ fun TeamsApplication() {
         composable("login_screen") {
             loginScreen(navController)
         }
-        composable("teams_list") {
-            TeamsScreen(navController)
-        }
         composable(
-            route = "team_details/{teamId}",
-            arguments = listOf(navArgument("teamId") {
-            type = NavType.StringType
-        })
+            route = "teams_list/{userId}",
+            arguments = listOf(navArgument("userId"){
+                type = NavType.StringType
+            })
         ) {
             navBackStackEntry ->
-            TeamScreen(navBackStackEntry.arguments!!.getString("teamId").toString(), navController)
+            TeamsScreen(navBackStackEntry.arguments!!.getString("userId").toString(), navController)
+        }
+        composable(
+            route = "team_details/{teamId}&{userId}",
+            arguments = listOf(
+                navArgument("teamId") {
+                type = NavType.StringType
+        },
+            navArgument("userId") {
+                type = NavType.StringType
+            }
+            )
+        ) {
+            navBackStackEntry ->
+            TeamScreen(navBackStackEntry.arguments!!.getString("teamId").toString(), navBackStackEntry.arguments!!.getString("userId").toString(), navController)
             Log.d("TeamScreen", "called")
         }
     }

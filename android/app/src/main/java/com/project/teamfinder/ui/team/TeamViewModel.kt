@@ -38,6 +38,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     private var socket: Socket = SocketHandler.getSocket()
     private var gson: Gson = Gson()
     lateinit var teamId: String
+    lateinit var userId: String
 
     fun getTeamById(id: String) {
         viewModelScope.launch(Dispatchers.IO) {

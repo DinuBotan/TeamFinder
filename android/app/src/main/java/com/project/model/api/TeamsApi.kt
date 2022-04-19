@@ -4,10 +4,7 @@ import com.project.model.response.*
 import com.project.teamfinder.ui.conversation.Message
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 class TeamsWebService {
 
@@ -38,6 +35,14 @@ class TeamsWebService {
         return api.login(user)
     }
 
+    suspend fun getUserById(userId: String): UserResponse {
+        return api.getUserById(userId)
+    }
+
+    suspend fun updateUserById(userId: String, user: UserResponse) {
+        return api.updateUserById(userId, user)
+    }
+
     interface TeamsApi {
         @GET("teams")
         suspend fun getTeams(): TeamsResponse
@@ -50,5 +55,11 @@ class TeamsWebService {
 
         @POST("users/login")
         suspend fun login(@Body user: User):UserResponse
+
+        @GET("users/{userId}")
+        suspend fun getUserById(@Path("userId") userId: String): UserResponse
+
+        @PATCH("users/{userId}")
+        suspend fun updateUserById(@Path("userId") userId: String, @Body user: UserResponse)
     }
 }
