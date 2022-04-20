@@ -43,7 +43,9 @@ fun TeamsScreen(userId: String, navController: NavHostController) {
 
     Scaffold(topBar = {
         AppBar(
-            title = "Teams list"
+            title = "Teams list",
+            navController,
+            userId
         )
     }) {
         Surface(
@@ -71,7 +73,7 @@ fun TeamsScreen(userId: String, navController: NavHostController) {
 }
 
 @Composable
-fun AppBar(title: String) {
+fun AppBar(title: String, navController: NavHostController, userId: String) {
     TopAppBar(
         title = { Text(title) },
         actions = {
@@ -81,7 +83,7 @@ fun AppBar(title: String) {
                 modifier = Modifier
                     .padding(horizontal = 12.dp)
                     .clickable(onClick = {
-
+                        navController?.navigate("new_team/${userId}")
                     })
             )
         }

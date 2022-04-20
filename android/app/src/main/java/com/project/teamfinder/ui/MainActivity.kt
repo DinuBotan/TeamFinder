@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.project.teamfinder.ui.createTeam.NewTeamScreen
 import com.project.teamfinder.ui.team.TeamScreen
 import com.project.teamfinder.ui.teams.TeamsScreen
 import com.project.teamfinder.ui.login.loginScreen
@@ -42,6 +43,15 @@ fun TeamsApplication() {
         ) {
             navBackStackEntry ->
             TeamsScreen(navBackStackEntry.arguments!!.getString("userId").toString(), navController)
+        }
+        composable(
+            route = "new_team/{userId}",
+            arguments = listOf(navArgument("userId"){
+                type = NavType.StringType
+            })
+        ) {
+                navBackStackEntry ->
+            NewTeamScreen(navBackStackEntry.arguments!!.getString("userId").toString(), navController)
         }
         composable(
             route = "team_details/{teamId}&{userId}",
