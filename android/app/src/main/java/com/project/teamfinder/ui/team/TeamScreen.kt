@@ -8,9 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
+import androidx.compose.material.icons.outlined.ExitToApp
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +24,7 @@ import com.project.teamfinder.ui.conversation.ConversationContent
 @Composable
 fun TeamScreen(teamId: String, userId: String, navController: NavHostController, viewModel: TeamViewModel = viewModel()) {
     viewModel.teamId = teamId
+    Log.d("DebugTeamId ", teamId)
     viewModel.userId = userId
     val team: TeamResponse by viewModel.team.observeAsState(TeamResponse("", "", 0))
     if(team.id == "") {
@@ -37,7 +37,11 @@ fun TeamScreen(teamId: String, userId: String, navController: NavHostController,
     Scaffold(topBar = {
         AppBar(
             title = "Team details",
-            icon = Icons.Default.ArrowBack
+            icon = Icons.Default.ArrowBack,
+            viewModel,
+            teamId,
+            navController,
+            userId
         ) {
             viewModel.leaveChat(teamId)
             navController?.navigateUp()
@@ -59,7 +63,7 @@ fun TeamScreen(teamId: String, userId: String, navController: NavHostController,
 }
 
 @Composable
-fun AppBar(title: String, icon: ImageVector, iconClickAction: () -> Unit) {
+fun AppBar(title: String, icon: ImageVector, viewModel: TeamViewModel, teamId: String, navController: NavHostController, userId: String, iconClickAction: () -> Unit) {
     TopAppBar(
         navigationIcon = {
             Icon(
@@ -70,8 +74,53 @@ fun AppBar(title: String, icon: ImageVector, iconClickAction: () -> Unit) {
                     .clickable(onClick = { iconClickAction.invoke() })
             )
         },
-        title = { Text(title) }
+        title = { Text(title) },
+        actions = {
+            Icon(
+                Icons.Outlined.ExitToApp,
+                contentDescription = "Leave",
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .clickable(onClick = {
+                        viewModel.openDialog.value = true
+                    })
+            )
+        }
     )
+    if (viewModel.openDialog.value) {
+        AlertDialog(
+            onDismissRequest = {
+                // Dismiss the dialog when the user clicks outside the dialog or on the back
+                // button. If you want to disable that functionality, simply use an empty
+                // onCloseRequest.
+                viewModel.openDialog.value = false
+            },
+            title = {
+                Text(text = "Leave Team")
+            },
+            text = {
+                Text("Are you sure you want to leave this team?")
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        viewModel.openDialog.value = false
+                        viewModel.leaveTeam(teamId)
+                        navController?.navigate("teams_list/${userId}")
+                    }) {
+                    Text("Leave")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        viewModel.openDialog.value = false
+                    }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 }
 
 @Composable
@@ -90,10 +139,9 @@ fun TeamContent(TeamName: String, TeamSize: Int, alignment: Alignment.Horizontal
                 style = MaterialTheme.typography.h5
             )
             Text(
-                text = "Team size: " + TeamSize.toString(),
+                text = "Team size: $TeamSize",
                 style = MaterialTheme.typography.h4
             )
         }
     }
-
 }

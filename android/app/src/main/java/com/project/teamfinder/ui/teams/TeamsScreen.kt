@@ -1,6 +1,5 @@
 package com.project.teamfinder.ui.teams
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,7 +16,6 @@ import androidx.navigation.NavHostController
 import com.project.model.response.TeamResponse
 import com.project.teamfinder.ui.TeamsApplication
 import com.project.teamfinder.ui.theme.TeamFinderTheme
-import kotlinx.coroutines.NonCancellable.children
 
 @Composable
 fun TeamsScreen(userId: String, navController: NavHostController) {

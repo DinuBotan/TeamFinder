@@ -1,6 +1,7 @@
 package com.project.teamfinder.ui.team
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import com.project.model.api.SocketHandler
 import com.project.model.response.MessageResponse
 import com.project.model.response.MessagesResponse
 import com.project.model.response.TeamResponse
+import com.project.model.response.UserResponse
 import com.project.teamfinder.ui.conversation.ConversationUiState
 import com.project.teamfinder.ui.conversation.Message
 import io.socket.client.Socket
@@ -28,10 +30,12 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     var teamMessages : ArrayList<Message> = ArrayList()
     val _team: MutableLiveData<TeamResponse> = MutableLiveData(TeamResponse("", "", 0))
     val team: LiveData<TeamResponse> = _team
+    lateinit var user: UserResponse
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             setTeamUiState()
+            user = repository.getUserById(userId)
         }
     }
 
@@ -39,6 +43,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     private var gson: Gson = Gson()
     lateinit var teamId: String
     lateinit var userId: String
+    val openDialog = mutableStateOf(false)
 
     fun getTeamById(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -101,5 +106,16 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     fun addMessage(m : Message) {
         m.chatRoomId = teamId
         socket.emit("sendMessage", Gson().toJson(m))
+    }
+
+    fun leaveTeam(teamId: String) {
+        user.teams.remove(teamId)
+        updateUserById(userId, user)
+    }
+
+    private fun updateUserById(userId: String, user: UserResponse) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateUserById(userId, user)
+        }
     }
 }
