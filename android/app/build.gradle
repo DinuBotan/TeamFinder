@@ -82,4 +82,7 @@ dependencies {
     implementation ('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
+
+    implementation "com.google.accompanist:accompanist-permissions:0.24.1-alpha"
+    implementation "com.google.accompanist:accompanist-insets:0.24.1-alpha"
 }

@@ -4,6 +4,7 @@ const Team = require('../models/team')
 
 router.post('/teams', async (req, res) => {
     const team = new Team(req.body)
+    console.log("Team to save: " + JSON.stringify(req.body))
 
     try {
         await team.save()

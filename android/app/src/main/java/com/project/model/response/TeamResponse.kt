@@ -18,6 +18,11 @@ data class TeamResponse(
 //    @SerializedName("strCategoryThumb") val imageUrl: String
 )
 
+data class NewTeam(
+    @SerializedName("name") val name: String,
+    @SerializedName("size") val size: Int
+)
+
 data class MessageResponse(
     @SerializedName("authorId") val authorId: String,
     @SerializedName("content") val content: String,
