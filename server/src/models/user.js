@@ -55,6 +55,10 @@ const userSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  imageId: {
+    type: Number,
+    default: 1
+  }
 });
 
 // Since we are passing a schema to the model:

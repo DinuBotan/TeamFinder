@@ -13,7 +13,8 @@ data class UserResponse(
     @SerializedName("country") val country: String,
     @SerializedName("city") val city: String,
     @SerializedName("interests") val interests: ArrayList<String>,
-    @SerializedName("teams") val teams: ArrayList<String>
+    @SerializedName("teams") val teams: ArrayList<String>,
+    @SerializedName("imageId") val imageId: Int
 )
 
 data class User(
@@ -24,5 +25,6 @@ data class User(
     val country: String,
     val city: String,
     val interests: ArrayList<String>?,
-    val teams: ArrayList<String>?
+    val teams: ArrayList<String>?,
+    val imageId: Int
 )

@@ -1,5 +1,6 @@
 package com.project.model.response
 
+import android.net.Uri
 import com.google.gson.annotations.SerializedName
 
 data class TeamsResponse(val teams: List<TeamResponse>)
@@ -14,13 +15,15 @@ data class TeamResponse(
     // with the help of Retrofit
     @SerializedName("_id") val id: String,
     @SerializedName("name") val name: String,
-    @SerializedName("size") val size: Int
+    @SerializedName("size") val size: Int,
+    @SerializedName("imageId") val imageId: Int
 //    @SerializedName("strCategoryThumb") val imageUrl: String
 )
 
 data class NewTeam(
     @SerializedName("name") val name: String,
-    @SerializedName("size") val size: Int
+    @SerializedName("size") val size: Int,
+    @SerializedName("imageId") val imageId: Int
 )
 
 data class MessageResponse(

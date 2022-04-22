@@ -1,6 +1,7 @@
 package com.project.teamfinder.ui.createTeam
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.End
@@ -24,6 +25,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -34,6 +36,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.project.teamfinder.R
 
 @Composable
 fun NewTeamScreen(userId: String, navController: NavHostController, viewModel: NewTeamViewModel = viewModel()) {
@@ -44,9 +47,10 @@ fun NewTeamScreen(userId: String, navController: NavHostController, viewModel: N
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(0.dp, 30.dp),
-                lastSelectedImage = viewModel.pickedImage.value,
+                viewModel.teamImage,
+//                lastSelectedImage = viewModel.pickedImage.value,
                 onSelection = {
-                    viewModel.pickedImage.value = it
+//                    viewModel.pickedImage.value = it
                 }
             )
             val focusManager = LocalFocusManager.current
@@ -143,7 +147,7 @@ fun NewTeamScreen(userId: String, navController: NavHostController, viewModel: N
             Column(
                 modifier = Modifier.align(Alignment.End).padding(0.dp, 15.dp, 20.dp, 0.dp)
             ) {
-                CreateButton(viewModel)
+                CreateButton(viewModel, navController, userId)
             }
         }
     }
@@ -186,12 +190,14 @@ fun AppTextField(
 @Composable
 fun ImagePickerView(
     modifier: Modifier = Modifier,
-    lastSelectedImage: Uri?,
+//    lastSelectedImage: Uri?,
+    teamImage: Int,
     onSelection: (Uri?) -> Unit
 ) {
     val galleryLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent()) {
         onSelection(it)
+        Log.d("ImageDebug", teamImage.toString())
     }
     Image(
         modifier = modifier
@@ -201,16 +207,18 @@ fun ImagePickerView(
             .clickable {
                 galleryLauncher.launch("image/*")
             },
-        painter = rememberImagePainter(lastSelectedImage),
+//        painter = rememberImagePainter(lastSelectedImage),
+        painter = painterResource(teamImage),
         contentDescription = "Profile Picture",
         contentScale = ContentScale.Crop
     )
 }
 
 @Composable
-fun CreateButton(viewModel: NewTeamViewModel) {
+fun CreateButton(viewModel: NewTeamViewModel, navController: NavHostController, userId: String) {
     OutlinedButton(onClick = {
         viewModel.createTeam()
+        navController?.navigate("teams_list/${userId}")
     }) {
         Text("Create")
     }

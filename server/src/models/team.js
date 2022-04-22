@@ -51,6 +51,11 @@ const Team = mongoose.model("Team", {
     require: false,
     default: '',
   },
+  imageId: {
+    type: Number,
+    require: false,
+    default: 1
+  }
 });
 
 module.exports = Team

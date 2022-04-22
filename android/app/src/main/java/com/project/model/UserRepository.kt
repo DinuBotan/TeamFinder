@@ -9,7 +9,7 @@ class UserRepository(private val webService: TeamsWebService = TeamsWebService()
     suspend fun login(userEmail: String, userPassword: String): UserResponse {
         val interests: ArrayList<String> = ArrayList()
         val teams: ArrayList<String> = ArrayList()
-        val user = User(userEmail, userPassword, "", "", "", "", interests, teams)
+        val user = User(userEmail, userPassword, "", "", "", "", interests, teams, 1)
         return webService.login(user)
     }
  }

@@ -28,7 +28,7 @@ data class User (
 class TeamViewModel(private val repository: TeamRepository = TeamRepository()) : ViewModel() {
     lateinit var messages: MessagesResponse
     var teamMessages : ArrayList<Message> = ArrayList()
-    val _team: MutableLiveData<TeamResponse> = MutableLiveData(TeamResponse("", "", 0))
+    val _team: MutableLiveData<TeamResponse> = MutableLiveData(TeamResponse("", "", 0,1))
     val team: LiveData<TeamResponse> = _team
     lateinit var user: UserResponse
 
