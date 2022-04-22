@@ -14,6 +14,7 @@ import com.project.teamfinder.ui.createTeam.NewTeamScreen
 import com.project.teamfinder.ui.team.TeamScreen
 import com.project.teamfinder.ui.teams.TeamsScreen
 import com.project.teamfinder.ui.login.loginScreen
+import com.project.teamfinder.ui.search.SearchScreen
 import com.project.teamfinder.ui.theme.TeamFinderTheme
 
 class MainActivity : ComponentActivity() {
@@ -52,6 +53,15 @@ fun TeamsApplication() {
         ) {
                 navBackStackEntry ->
             NewTeamScreen(navBackStackEntry.arguments!!.getString("userId").toString(), navController)
+        }
+        composable(
+            route = "search/{userId}",
+            arguments = listOf(navArgument("userId"){
+                type = NavType.StringType
+            })
+        ) {
+                navBackStackEntry ->
+            SearchScreen(navBackStackEntry.arguments!!.getString("userId").toString(), navController)
         }
         composable(
             route = "team_details/{teamId}&{userId}",

@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.ExitToApp
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -77,6 +78,15 @@ fun AppBar(title: String, navController: NavHostController, userId: String) {
     TopAppBar(
         title = { Text(title) },
         actions = {
+            Icon(
+                Icons.Outlined.Search,
+                contentDescription = "Search team",
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .clickable(onClick = {
+                        navController?.navigate("search/${userId}")
+                    })
+            )
             Icon(
                 Icons.Outlined.Create,
                 contentDescription = "Create team",
