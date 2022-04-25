@@ -26,6 +26,22 @@ router.get('/teams', async (req, res) => {
     }
 })
 
+router.get("/teams/search", async (req, res) => {
+    const filters = req.query;
+    console.log('Searching query: ', req.query);
+  try {
+    console.log("Searching: ", filters.name);
+    const teams = await Team.fuzzySearch(filters.name);
+    console.log('Teams: ', teams);
+    const obj = {
+      teams: teams,
+    };
+    res.send(obj);
+  } catch (e) {
+    res.status(500).send();
+  }
+});
+
 router.get('/teams/:id', async (req, res) => {
     const _id = req.params.id
     

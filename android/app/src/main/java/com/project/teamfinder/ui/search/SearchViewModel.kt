@@ -29,7 +29,7 @@ class SearchViewModel(private val repository: TeamsRepository = TeamsRepository(
 
     // Suspend functions are asynchronous and should wait for the result inside a coroutine
     private suspend fun getTeams(): List<TeamResponse> {
-        return repository.getTeams().teams
+        return repository.searchTeamsByName("fuzz").teams
     }
 
     fun belongsToTeam(teamId: String): Boolean {

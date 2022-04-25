@@ -47,6 +47,10 @@ class TeamsWebService {
         return api.createTeam(newTeam)
     }
 
+    suspend fun searchTeams(teamName: String): TeamsResponse {
+        return api.searchTeams(teamName)
+    }
+
     interface TeamsApi {
         @GET("teams")
         suspend fun getTeams(): TeamsResponse
@@ -68,5 +72,8 @@ class TeamsWebService {
 
         @POST("teams")
         suspend fun createTeam(@Body newTeam: NewTeam)
+
+        @GET("teams/search")
+        suspend fun searchTeams(@Query("name") name: String): TeamsResponse
     }
 }

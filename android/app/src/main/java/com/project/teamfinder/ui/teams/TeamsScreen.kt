@@ -1,5 +1,6 @@
 package com.project.teamfinder.ui.teams
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -41,6 +42,8 @@ fun TeamsScreen(userId: String, navController: NavHostController) {
     val viewModel: TeamsViewModel = viewModel()
     viewModel.userId = userId
     val teams = viewModel.teamsState.value
+
+    Log.d("DebugTeams ", teams.toString())
 
     Scaffold(topBar = {
         AppBar(
