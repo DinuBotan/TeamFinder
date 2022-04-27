@@ -51,6 +51,10 @@ class TeamsWebService {
         return api.searchTeams(teamName)
     }
 
+    suspend fun searchTeamsByCategory(teamCategory: String): TeamsResponse {
+        return api.searchTeamsByCategory(teamCategory)
+    }
+
     interface TeamsApi {
         @GET("teams")
         suspend fun getTeams(): TeamsResponse
@@ -75,5 +79,8 @@ class TeamsWebService {
 
         @GET("teams/search")
         suspend fun searchTeams(@Query("name") name: String): TeamsResponse
+
+        @GET("teams/search")
+        suspend fun searchTeamsByCategory(@Query("category") category: String): TeamsResponse
     }
 }

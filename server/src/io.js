@@ -26,8 +26,8 @@ module.exports = function (socket, io, app) {
   socket.on("sendMessage", (message) => {
     message = JSON.parse(message);
     console.log("In sendMessage: " + socket.id + " now in rooms ", socket.rooms);
-    socket.to(message.chatRoomID).emit("chatMessage", message);
-    console.log("Emitted message: ", message);
+    socket.to(message.chatRoomId).emit("chatMessage", message);
+    console.log("Emitted message: ", message, " to ", message.chatRoomId);
 
     // Persist message to database
     new Message({

@@ -34,8 +34,26 @@ fun SearchScreen(userId: String, navController: NavHostController) {
     viewModel.userId = userId
     val teams = viewModel.teamsState.value
     val focusManager = LocalFocusManager.current
+    ScrollableTabRow(
+        selectedTabIndex = 0,
+        Modifier.fillMaxWidth(),
+    ) {
+        for(category in getAllTeamCategories()) {
+            Text(
+                text = category.value,
+                style = MaterialTheme.typography.body2,
+                color = MaterialTheme.colors.secondary,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clickable {
+                        viewModel.searchTeamByCategory(category.value)
+                    }
+            )
+        }
+
+    }
     AppTextField(
-        modifier = Modifier.padding(20.dp, 5.dp, 20.dp, 10.dp),
+        modifier = Modifier.padding(20.dp, 40.dp, 20.dp, 10.dp),
         text = viewModel.teamName.value,
         placeholder = "Search team",
         onChange = {
@@ -51,7 +69,7 @@ fun SearchScreen(userId: String, navController: NavHostController) {
     )
     LazyColumn(
 //        contentPadding = PaddingValues(60.dp),
-        modifier = Modifier.absolutePadding(10.dp, 50.dp, 10.dp, 3.dp)
+        modifier = Modifier.absolutePadding(10.dp, 90.dp, 10.dp, 3.dp)
     ) {
         items(teams) { team ->
             Team(team, viewModel, navController, userId) {

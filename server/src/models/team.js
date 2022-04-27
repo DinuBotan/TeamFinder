@@ -61,7 +61,7 @@ const TeamSchema = new Schema({
   });
 
   TeamSchema.plugin(mongoose_fuzzy_searching, {
-    fields: ["name"],
+    fields: ["name", "category"],
   })
 
 const Team = mongoose.model(

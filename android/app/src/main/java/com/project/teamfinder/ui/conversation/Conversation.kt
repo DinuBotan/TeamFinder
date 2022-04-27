@@ -29,6 +29,7 @@ import com.project.teamfinder.ui.team.TeamViewModel
 fun ConversationContent(
     uiState: ConversationUiState,
     teamViewModel: TeamViewModel,
+    userId: String,
     modifier: Modifier = Modifier
     ) {
 
@@ -48,9 +49,9 @@ fun ConversationContent(
                 UserInput(
                     onMessageSent = { content ->
                         uiState.addMessage(
-                            Message(authorMe, content)
+                            Message(userId, content)
                         )
-                        teamViewModel.addMessage(Message(authorMe, content))
+                        teamViewModel.addMessage(Message(userId, content))
                     }
                 )
             }

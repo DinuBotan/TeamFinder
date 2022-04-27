@@ -91,6 +91,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     }
 
     var updateChat = Emitter.Listener {
+        Log.d("MessageEmitted: " , it[0].toString())
         val chat:MessageResponse = gson.fromJson(it[0].toString(), MessageResponse::class.java)
         var message = Message(chat.authorId, chat.content, chat.timestamp, teamId)
         var messages: ArrayList<Message> = ArrayList()
@@ -104,6 +105,7 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     }
 
     fun addMessage(m : Message) {
+        m.authorId = userId
         m.chatRoomId = teamId
         socket.emit("sendMessage", Gson().toJson(m))
     }

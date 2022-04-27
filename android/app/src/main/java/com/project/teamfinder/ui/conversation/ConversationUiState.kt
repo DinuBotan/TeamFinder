@@ -22,10 +22,10 @@ class ConversationUiState(
 
 @Immutable
 data class Message(
-    var authorId: String = "me",
+    var authorId: String = "",
     val content: String,
     val timestamp: String = "",
     var chatRoomId: String = "",
     val image: Int? = null,
-    val authorImage: Int = if (authorId == "me") R.drawable.dinu1 else R.drawable.someone_else
+    val authorImage: Int = if (authorId == "625d573ec82364629d6c4785") R.drawable.dinu1 else R.drawable.someone_else
 )

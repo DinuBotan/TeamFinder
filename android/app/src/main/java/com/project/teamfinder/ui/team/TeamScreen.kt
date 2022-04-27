@@ -56,7 +56,7 @@ fun TeamScreen(teamId: String, userId: String, navController: NavHostController,
 //                verticalAlignment = Arrangement.Top
             ) {
                 TeamContent(TeamName = team.name, TeamSize = team.size, alignment = Alignment.CenterHorizontally)
-                ConversationContent(viewModel.teamUiState, viewModel)
+                ConversationContent(viewModel.teamUiState, viewModel, userId)
             }
         }
     }

@@ -26,4 +26,8 @@ class TeamsRepository(private val webService: TeamsWebService = TeamsWebService(
     suspend fun searchTeamsByName(teamName: String): TeamsResponse {
         return webService.searchTeams(teamName)
     }
+
+    suspend fun searchTeamsByCategory(teamCategory: String): TeamsResponse {
+        return webService.searchTeamsByCategory(teamCategory)
+    }
 }
