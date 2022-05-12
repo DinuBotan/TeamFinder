@@ -2,6 +2,7 @@ package com.project.model.response
 
 import android.net.Uri
 import com.google.gson.annotations.SerializedName
+import com.project.teamfinder.R
 
 data class TeamsResponse(val teams: List<TeamResponse>)
 
@@ -32,3 +33,15 @@ data class MessageResponse(
     @SerializedName("timestamp") val timestamp: String,
     @SerializedName("chatRoomId") val chatRoomId: String,
 )
+
+class ImagePicker {
+     public fun getImage(teamNum: Int): Int {
+        var imageMap: HashMap<Int, Int> = HashMap()
+        imageMap.put(1, R.drawable.team1)
+        imageMap.put(2, R.drawable.team2)
+        if(imageMap.get(teamNum) != null) {
+            return imageMap.get(teamNum)!!
+        }
+        return R.drawable.team1
+    }
+}

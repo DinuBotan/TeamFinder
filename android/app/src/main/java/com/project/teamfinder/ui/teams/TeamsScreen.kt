@@ -1,6 +1,7 @@
 package com.project.teamfinder.ui.teams
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -25,10 +26,13 @@ import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import coil.compose.rememberImagePainter
+import com.project.model.response.ImagePicker
 import com.project.model.response.TeamResponse
 import com.project.teamfinder.ui.TeamsApplication
 import com.project.teamfinder.ui.conversation.ConversationContent
@@ -42,6 +46,7 @@ fun TeamsScreen(userId: String, navController: NavHostController) {
     val viewModel: TeamsViewModel = viewModel()
     viewModel.userId = userId
     val teams = viewModel.teamsState.value
+    val imagePicker = ImagePicker()
 
     Log.d("DebugTeams ", teams.toString())
 
@@ -67,7 +72,7 @@ fun TeamsScreen(userId: String, navController: NavHostController) {
         modifier = Modifier.absolutePadding(10.dp, 50.dp, 10.dp, 3.dp)
     ) {
         items(teams) { team ->
-            Team(team, viewModel, navController, userId) {
+            Team(team, viewModel, navController, userId, imagePicker) {
                 if(viewModel.belongsToTeam(team.id)) {
                     navController?.navigate("team_details/${team.id}&${userId}")
                 }
@@ -104,7 +109,7 @@ fun AppBar(title: String, navController: NavHostController, userId: String) {
 }
 
 @Composable
-fun Team(team : TeamResponse, viewModel: TeamsViewModel, navController: NavHostController, userId: String, clickAction: () -> Unit) {
+fun Team(team : TeamResponse, viewModel: TeamsViewModel, navController: NavHostController, userId: String, imagePicker: ImagePicker, clickAction: () -> Unit) {
     Card(shape = RoundedCornerShape(8.dp),
         elevation = 2.dp,
         modifier = Modifier
@@ -113,14 +118,14 @@ fun Team(team : TeamResponse, viewModel: TeamsViewModel, navController: NavHostC
             .clickable(onClick = { clickAction.invoke() })
     ) {
         Row {
-            // Image
-//            Image(
-//                painter = rememberImagePainter(team.imageUrl),
-//                contentDescription = null,
-//                modifier = Modifier
-//                    .size(88.dp)
-//                    .padding(4.dp)
-//            )
+             Image
+            Image(
+                painter = rememberImagePainter(imagePicker.getImage(team.imageId)),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(88.dp)
+                    .padding(4.dp)
+            )
 
             Column(modifier = Modifier
                 .align(Alignment.CenterVertically)
