@@ -23,6 +23,10 @@ class TeamRepository(private val webService: TeamsWebService = TeamsWebService()
         return webService.updateUserById(userId, user)
     }
 
+    suspend fun updateTeamById(teamId: String, team: TeamResponse) {
+        return webService.updateTeamById(teamId, team)
+    }
+
     suspend fun createTeam(newTeam: NewTeam) {
         return webService.createTeam(newTeam)
     }

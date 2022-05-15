@@ -36,12 +36,12 @@ const TeamSchema = new Schema({
     country: {
       type: String,
       require: false,
-      default: "",
+      default: "Remote",
     },
     city: {
       type: String,
       require: false,
-      default: "",
+      default: "Remote",
     },
     language: {
       type: String,

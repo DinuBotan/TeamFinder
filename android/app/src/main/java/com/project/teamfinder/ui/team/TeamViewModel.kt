@@ -28,14 +28,29 @@ data class User (
 class TeamViewModel(private val repository: TeamRepository = TeamRepository()) : ViewModel() {
     lateinit var messages: MessagesResponse
     var teamMessages : ArrayList<Message> = ArrayList()
-    val _team: MutableLiveData<TeamResponse> = MutableLiveData(TeamResponse("", "", 0,1))
+    val _team: MutableLiveData<TeamResponse> = MutableLiveData(TeamResponse(
+        "",
+        "",
+        0,
+        1,
+        ArrayList(),
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+    ))
     val team: LiveData<TeamResponse> = _team
     lateinit var user: UserResponse
+    lateinit var aTeam: TeamResponse
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             setTeamUiState()
             user = repository.getUserById(userId)
+            aTeam = repository.getTeamById(teamId)
+            addTeamMember(userId, aTeam)
         }
     }
 
@@ -44,6 +59,12 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
     lateinit var teamId: String
     lateinit var userId: String
     val openDialog = mutableStateOf(false)
+
+    fun addTeamMember(userId: String, team: TeamResponse) {
+        if(!team.members.contains(userId)) {
+            joinTeam(userId)
+        }
+    }
 
     fun getTeamById(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -112,12 +133,26 @@ class TeamViewModel(private val repository: TeamRepository = TeamRepository()) :
 
     fun leaveTeam(teamId: String) {
         user.teams.remove(teamId)
+        aTeam.members.remove(userId)
         updateUserById(userId, user)
+        updateTeamById(teamId, aTeam)
     }
+
+    fun joinTeam(userId: String) {
+        aTeam.members.add(userId)
+        updateTeamById(teamId, aTeam)
+    }
+
 
     private fun updateUserById(userId: String, user: UserResponse) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateUserById(userId, user)
+        }
+    }
+
+    private fun updateTeamById(teamId: String, team: TeamResponse) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateTeamById(teamId, team)
         }
     }
 }

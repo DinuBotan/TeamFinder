@@ -26,7 +26,18 @@ fun TeamScreen(teamId: String, userId: String, navController: NavHostController,
     viewModel.teamId = teamId
     Log.d("DebugTeamId ", teamId)
     viewModel.userId = userId
-    val team: TeamResponse by viewModel.team.observeAsState(TeamResponse("", "", 0, 1))
+    val team: TeamResponse by viewModel.team.observeAsState(TeamResponse("",
+        "",
+        0,
+        1,
+        ArrayList(),
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+    ))
     if(team.id == "") {
         viewModel.getTeamById(teamId)
         viewModel.joinChat(teamId)

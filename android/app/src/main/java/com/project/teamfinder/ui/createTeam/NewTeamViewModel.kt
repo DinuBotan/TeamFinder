@@ -40,7 +40,15 @@ class NewTeamViewModel(private val repository: TeamRepository = TeamRepository()
     }
 
     fun createTeam() {
-        val newTeam = NewTeam(name.value, Integer.parseInt(size.value), imageId.value)
+        val newTeam = NewTeam(
+            name.value,
+            Integer.parseInt(size.value),
+            imageId.value,
+            category.value,
+            country.value,
+            city.value,
+            language.value
+        )
         viewModelScope.launch(Dispatchers.IO) {
             repository.createTeam(newTeam)
         }

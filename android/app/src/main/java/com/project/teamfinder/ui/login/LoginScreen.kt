@@ -25,7 +25,7 @@ import com.project.teamfinder.ui.theme.*
 
 
 @Composable
-fun loginScreen(navController: NavHostController, viewModel: LoginViewModel = viewModel()){
+fun loginScreen(navController: NavHostController, viewModel: LoginViewModel = viewModel()) {
     if(viewModel.successfulLogin.value) {
         navController?.navigate("teams_list/${viewModel.user.id}")
         viewModel.successfulLogin.value = false

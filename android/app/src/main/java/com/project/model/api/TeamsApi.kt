@@ -43,6 +43,10 @@ class TeamsWebService {
         return api.updateUserById(userId, user)
     }
 
+    suspend fun updateTeamById(teamId: String, team: TeamResponse) {
+        return api.updateTeamById(teamId, team)
+    }
+
     suspend fun createTeam(newTeam: NewTeam) {
         return api.createTeam(newTeam)
     }
@@ -73,6 +77,9 @@ class TeamsWebService {
 
         @PATCH("users/{userId}")
         suspend fun updateUserById(@Path("userId") userId: String, @Body user: UserResponse)
+
+        @PATCH("teams/{teamId}")
+        suspend fun updateTeamById(@Path("teamId") teamId: String, @Body team: TeamResponse)
 
         @POST("teams")
         suspend fun createTeam(@Body newTeam: NewTeam)

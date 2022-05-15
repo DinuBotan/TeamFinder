@@ -17,14 +17,26 @@ data class TeamResponse(
     @SerializedName("_id") val id: String,
     @SerializedName("name") val name: String,
     @SerializedName("size") val size: Int,
-    @SerializedName("imageId") val imageId: Int
+    @SerializedName("imageId") val imageId: Int,
+    @SerializedName("members") val members: ArrayList<String>,
+    @SerializedName("category") val category: String,
+    @SerializedName("creationDate") val creationDate: String,
+    @SerializedName("location") val location: String,
+    @SerializedName("country") val country: String,
+    @SerializedName("city") val city: String,
+    @SerializedName("language") val language: String,
+
 //    @SerializedName("strCategoryThumb") val imageUrl: String
 )
 
 data class NewTeam(
     @SerializedName("name") val name: String,
     @SerializedName("size") val size: Int,
-    @SerializedName("imageId") val imageId: Int
+    @SerializedName("imageId") val imageId: Int,
+    @SerializedName("category") val category: String,
+    @SerializedName("country") val country: String,
+    @SerializedName("city") val city: String,
+    @SerializedName("language") val language: String,
 )
 
 data class MessageResponse(

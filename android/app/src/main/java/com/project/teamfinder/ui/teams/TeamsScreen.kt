@@ -72,9 +72,11 @@ fun TeamsScreen(userId: String, navController: NavHostController) {
         modifier = Modifier.absolutePadding(10.dp, 50.dp, 10.dp, 3.dp)
     ) {
         items(teams) { team ->
-            Team(team, viewModel, navController, userId, imagePicker) {
-                if(viewModel.belongsToTeam(team.id)) {
-                    navController?.navigate("team_details/${team.id}&${userId}")
+            if (team.members.contains(userId)) {
+                Team(team, viewModel, navController, userId, imagePicker) {
+                    if (viewModel.belongsToTeam(team.id)) {
+                        navController?.navigate("team_details/${team.id}&${userId}")
+                    }
                 }
             }
         }
@@ -134,6 +136,17 @@ fun Team(team : TeamResponse, viewModel: TeamsViewModel, navController: NavHostC
                 Text(text = team.name,
                     style = MaterialTheme.typography.h6
                 )
+                Text(text = "Members: " + team.members.size.toString() + "/" + team.size.toString(),
+                    style = MaterialTheme.typography.h6
+                )
+                Text(text = "Category: " + team.category,
+                    style = MaterialTheme.typography.h6)
+
+                Text(text = "Location: " + team.location,
+                    style = MaterialTheme.typography.h6)
+
+                Text(text = "Language: " + team.language,
+                    style = MaterialTheme.typography.h6)
             }
         }
         if(!viewModel.belongsToTeam(team.id)) {

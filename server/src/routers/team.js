@@ -73,9 +73,9 @@ router.patch("/teams/:id", async (req, res) => {
     allowedUpdates.includes(update)
   );
 
-  if (!isValidOperation) {
-    return res.status(400).send({ error: "Invalid updates!" });
-  }
+  // if (!isValidOperation) {
+  //   return res.status(400).send({ error: "Invalid updates!" });
+  // }
 
   try {
     const team = await Team.findById(req.params.id);
