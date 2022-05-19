@@ -15,6 +15,7 @@ import com.project.teamfinder.ui.team.TeamScreen
 import com.project.teamfinder.ui.teams.TeamsScreen
 import com.project.teamfinder.ui.login.loginScreen
 import com.project.teamfinder.ui.search.SearchScreen
+import com.project.teamfinder.ui.signUp.signUpScreen
 import com.project.teamfinder.ui.theme.TeamFinderTheme
 
 class MainActivity : ComponentActivity() {
@@ -35,6 +36,9 @@ fun TeamsApplication() {
     NavHost(navController = navController, startDestination = "login_screen") {
         composable("login_screen") {
             loginScreen(navController)
+        }
+        composable("sign_up_screen") {
+            signUpScreen(navController)
         }
         composable(
             route = "teams_list/{userId}",

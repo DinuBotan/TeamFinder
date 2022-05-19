@@ -1,6 +1,5 @@
 package com.project.model.response
 
-import android.net.Uri
 import com.google.gson.annotations.SerializedName
 import com.project.teamfinder.R
 
@@ -34,8 +33,7 @@ data class NewTeam(
     @SerializedName("size") val size: Int,
     @SerializedName("imageId") val imageId: Int,
     @SerializedName("category") val category: String,
-    @SerializedName("country") val country: String,
-    @SerializedName("city") val city: String,
+    @SerializedName("location") val location: String,
     @SerializedName("language") val language: String,
 )
 
@@ -51,6 +49,10 @@ class ImagePicker {
         var imageMap: HashMap<Int, Int> = HashMap()
         imageMap.put(1, R.drawable.team1)
         imageMap.put(2, R.drawable.team2)
+         imageMap.put(3, R.drawable.team3)
+         imageMap.put(4, R.drawable.team4)
+         imageMap.put(5, R.drawable.team5)
+         imageMap.put(6, R.drawable.team6)
         if(imageMap.get(teamNum) != null) {
             return imageMap.get(teamNum)!!
         }

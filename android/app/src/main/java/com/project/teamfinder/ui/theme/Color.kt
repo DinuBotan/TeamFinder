@@ -16,7 +16,7 @@ val milkGreen = Color(0XFF0BCB85)
 
 val Colors.BackgroundColor : Color
     @Composable
-    get() = BlackishGray
+    get() = Color.White
 
 val Colors.TextFieldColor : Color
     @Composable

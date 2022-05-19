@@ -67,7 +67,14 @@ fun NewTeamScreen(userId: String, navController: NavHostController, viewModel: N
                     onNext = {
                         focusManager.moveFocus(FocusDirection.Down)
                     }
-                )
+                ),
+                leadingIcon = {
+                    Image(
+                        painter = painterResource(id = R.drawable.team),
+                        contentDescription = "Name",
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
             )
             AppTextField(
                 modifier = Modifier.padding(20.dp, 5.dp, 20.dp, 10.dp),
@@ -82,7 +89,14 @@ fun NewTeamScreen(userId: String, navController: NavHostController, viewModel: N
                     onNext = {
                         focusManager.moveFocus(FocusDirection.Down)
                     }
-                )
+                ),
+                leadingIcon = {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_category),
+                        contentDescription = "Category",
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
             )
             AppTextField(
                 modifier = Modifier.padding(20.dp, 5.dp, 20.dp, 10.dp),
@@ -97,14 +111,21 @@ fun NewTeamScreen(userId: String, navController: NavHostController, viewModel: N
                     onNext = {
                         focusManager.moveFocus(FocusDirection.Down)
                     }
-                )
+                ),
+                leadingIcon = {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_user),
+                        contentDescription = "Size",
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
             )
             AppTextField(
                 modifier = Modifier.padding(20.dp, 5.dp, 20.dp, 10.dp),
-                text = viewModel.country.value,
-                placeholder = "Country",
+                text = viewModel.location.value,
+                placeholder = "Location",
                 onChange = {
-                    viewModel.country.value = it
+                    viewModel.location.value = it
                 },
                 imeAction = ImeAction.Next,//Show next as IME button
                 keyboardType = KeyboardType.Text, //Plain text keyboard
@@ -112,23 +133,30 @@ fun NewTeamScreen(userId: String, navController: NavHostController, viewModel: N
                     onNext = {
                         focusManager.moveFocus(FocusDirection.Down)
                     }
-                )
+                ),
+                leadingIcon = {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_location),
+                        contentDescription = "Location",
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
             )
-            AppTextField(
-                modifier = Modifier.padding(20.dp, 5.dp, 20.dp, 10.dp),
-                text = viewModel.city.value,
-                placeholder = "City",
-                onChange = {
-                    viewModel.city.value = it
-                },
-                imeAction = ImeAction.Next,//Show next as IME button
-                keyboardType = KeyboardType.Text, //Plain text keyboard
-                keyBoardActions = KeyboardActions(
-                    onNext = {
-                        focusManager.moveFocus(FocusDirection.Down)
-                    }
-                )
-            )
+//            AppTextField(
+//                modifier = Modifier.padding(20.dp, 5.dp, 20.dp, 10.dp),
+//                text = viewModel.city.value,
+//                placeholder = "City",
+//                onChange = {
+//                    viewModel.city.value = it
+//                },
+//                imeAction = ImeAction.Next,//Show next as IME button
+//                keyboardType = KeyboardType.Text, //Plain text keyboard
+//                keyBoardActions = KeyboardActions(
+//                    onNext = {
+//                        focusManager.moveFocus(FocusDirection.Down)
+//                    }
+//                )
+//            )
             AppTextField(
                 modifier = Modifier.padding(20.dp, 5.dp, 20.dp, 10.dp),
                 text = viewModel.language.value,
@@ -142,7 +170,14 @@ fun NewTeamScreen(userId: String, navController: NavHostController, viewModel: N
                     onNext = {
                         focusManager.moveFocus(FocusDirection.Down)
                     }
-                )
+                ),
+                leadingIcon = {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_language),
+                        contentDescription = "Language",
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
             )
             Column(
                 modifier = Modifier.align(Alignment.End).padding(0.dp, 15.dp, 20.dp, 0.dp)

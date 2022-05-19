@@ -59,6 +59,10 @@ class TeamsWebService {
         return api.searchTeamsByCategory(teamCategory)
     }
 
+    suspend fun createUser(newUser: NewUser) {
+        return api.createUser(newUser)
+    }
+
     interface TeamsApi {
         @GET("teams")
         suspend fun getTeams(): TeamsResponse
@@ -80,6 +84,9 @@ class TeamsWebService {
 
         @PATCH("teams/{teamId}")
         suspend fun updateTeamById(@Path("teamId") teamId: String, @Body team: TeamResponse)
+
+        @POST("users")
+        suspend fun createUser(@Body newUser: NewUser)
 
         @POST("teams")
         suspend fun createTeam(@Body newTeam: NewTeam)

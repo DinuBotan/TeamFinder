@@ -18,6 +18,7 @@ class LoginViewModel(private val repository: UserRepository = UserRepository()) 
     val passwordTextBoxState: MutableState<String> = mutableStateOf("")
     val successfulLogin: MutableState<Boolean> = mutableStateOf(false)
     val unsuccessfulLogin: MutableState<Boolean> = mutableStateOf(false)
+    val signUp: MutableState<Boolean> = mutableStateOf(false)
 
     fun login(): UserResponse {
         viewModelScope.launch(Dispatchers.IO) {

@@ -17,6 +17,12 @@ data class UserResponse(
     @SerializedName("imageId") val imageId: Int
 )
 
+data class NewUser(
+    @SerializedName("name") val name: String,
+    @SerializedName("email") val email: String,
+    @SerializedName("password") val password: String
+)
+
 data class User(
     val userEmail: String,
     val userPassword: String,

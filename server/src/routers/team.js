@@ -10,6 +10,7 @@ router.post("/teams", async (req, res) => {
     await team.save();
     res.status(201).send(team);
   } catch (e) {
+    console.log('Failed to save with error: ' + e)
     res.status(400).send(e);
   }
 });

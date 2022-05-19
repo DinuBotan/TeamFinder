@@ -29,6 +29,9 @@ fun loginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
     if(viewModel.successfulLogin.value) {
         navController?.navigate("teams_list/${viewModel.user.id}")
         viewModel.successfulLogin.value = false
+    } else if (viewModel.signUp.value) {
+        navController?.navigate("sign_up_screen")
+        viewModel.signUp.value = false
     }
     Surface(modifier = Modifier.fillMaxSize(),color = MaterialTheme.colors.BackgroundColor){
         Column (modifier = Modifier.fillMaxSize(),verticalArrangement = Arrangement.Top,
@@ -60,21 +63,24 @@ fun text_field(InputType : KeyboardType,placeholder : String,IconImage : Painter
 
     TextField(value = viewModel.emailTextBoxState.value,
         onValueChange = { newInput -> viewModel.emailTextBoxState.value = newInput },
-        leadingIcon = {Image(painter = painterResource(id = R.drawable.ic_email), contentDescription = "email")},
+        leadingIcon = {Image(painter = painterResource(id = R.drawable.ic_email), contentDescription = "email",
+            modifier = Modifier.size(40.dp)
+        )},
         label = {Text(text = "E-mail address",color = MaterialTheme.colors.TextFieldTextColor)},
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         modifier = Modifier
             .padding(top = 25.dp)
-            .background(color = MaterialTheme.colors.TextFieldColor)
+            .background(color = MaterialTheme.colors.BackgroundColor)
     )
     TextField(value = viewModel.passwordTextBoxState.value,
         onValueChange = { newInput -> viewModel.passwordTextBoxState.value = newInput },
-        leadingIcon = {Image(painter = painterResource(id = R.drawable.ic_password), contentDescription = "password")},
+        leadingIcon = {Image(painter = painterResource(id = R.drawable.ic_password), contentDescription = "password",
+            modifier = Modifier.size(40.dp))},
         label = {Text(text = "Password",color = MaterialTheme.colors.TextFieldTextColor)},
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         modifier = Modifier
             .padding(top = 25.dp)
-            .background(color = MaterialTheme.colors.TextFieldColor)
+            .background(color = MaterialTheme.colors.BackgroundColor)
     )
 }
 @Composable
@@ -101,7 +107,9 @@ fun SnackbarDemo(viewModel: LoginViewModel) {
 }
 @Composable
 fun SignUp(viewModel: LoginViewModel){
-    Button(onClick = {},modifier = Modifier
+    Button(onClick = {
+        viewModel.signUp.value = true
+    },modifier = Modifier
         .padding(top = 25.dp)
         .requiredWidth(277.dp)){
         Text(text = "Sign Up")

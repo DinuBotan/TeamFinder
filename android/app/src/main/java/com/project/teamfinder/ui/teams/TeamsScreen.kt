@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,7 @@ import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.project.model.response.ImagePicker
 import com.project.model.response.TeamResponse
+import com.project.teamfinder.R
 import com.project.teamfinder.ui.TeamsApplication
 import com.project.teamfinder.ui.conversation.ConversationContent
 import com.project.teamfinder.ui.team.TeamContent
@@ -52,7 +54,7 @@ fun TeamsScreen(userId: String, navController: NavHostController) {
 
     Scaffold(topBar = {
         AppBar(
-            title = "Teams list",
+            title = "My teams",
             navController,
             userId
         )
@@ -125,7 +127,7 @@ fun Team(team : TeamResponse, viewModel: TeamsViewModel, navController: NavHostC
                 painter = rememberImagePainter(imagePicker.getImage(team.imageId)),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(88.dp)
+                    .size(120.dp)
                     .padding(4.dp)
             )
 
@@ -133,24 +135,64 @@ fun Team(team : TeamResponse, viewModel: TeamsViewModel, navController: NavHostC
                 .align(Alignment.CenterVertically)
                 .padding(16.dp)
             ) {
-                Text(text = team.name,
-                    style = MaterialTheme.typography.h6
-                )
-                Text(text = "Members: " + team.members.size.toString() + "/" + team.size.toString(),
-                    style = MaterialTheme.typography.h6
-                )
-                Text(text = "Category: " + team.category,
-                    style = MaterialTheme.typography.h6)
-
-                Text(text = "Location: " + team.location,
-                    style = MaterialTheme.typography.h6)
-
-                Text(text = "Language: " + team.language,
-                    style = MaterialTheme.typography.h6)
+                Row() {
+                    Text(text = team.name,
+                        style = MaterialTheme.typography.h6
+                    )
+                }
+                Row() {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_category),
+                        contentDescription = "Category",
+                        modifier = Modifier.size(20.dp),
+                        tint = androidx.compose.ui.graphics.Color.Unspecified
+                    )
+                    Text(text = team.category,
+                        style = MaterialTheme.typography.h6,
+                        modifier = Modifier.padding(4.dp, 0.dp, 0.dp, 0.dp)
+                    )
+                }
+                Row() {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_location),
+                        contentDescription = "Location",
+                        modifier = Modifier.size(20.dp),
+                        tint = androidx.compose.ui.graphics.Color.Unspecified
+                    )
+                    Text(text = team.location,
+                        style = MaterialTheme.typography.h6,
+                        modifier = Modifier.padding(4.dp, 0.dp, 0.dp, 0.dp)
+                    )
+                }
+                Row() {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_language),
+                        contentDescription = "Language",
+                        modifier = Modifier.size(20.dp),
+                        tint = androidx.compose.ui.graphics.Color.Unspecified
+                    )
+                    Text(text = team.language,
+                        style = MaterialTheme.typography.h6,
+                        modifier = Modifier.padding(4.dp, 0.dp, 0.dp, 0.dp)
+                    )
+                }
             }
         }
         if(!viewModel.belongsToTeam(team.id)) {
             JoinButton(viewModel, team, navController, userId)
+        }
+        Row(
+            modifier = Modifier.padding(10.dp, 110.dp, 0.dp, 10.dp),
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_user),
+                contentDescription = "Size",
+                modifier = Modifier.size(20.dp).padding(2.dp, 5.dp, 2.dp, 0.dp),
+                tint = androidx.compose.ui.graphics.Color.Unspecified
+            )
+            Text(text = team.members.size.toString() + "/" + team.size.toString(),
+                style = MaterialTheme.typography.h6,
+            )
         }
 
     }

@@ -60,5 +60,4 @@ class TeamRepositoryUnitTests {
             assertEquals(messages.messages.get(0).authorId, "999")
         }
     }
-
 }
